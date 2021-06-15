@@ -27,7 +27,7 @@ def WriteToExcel(weather_data, town=None):
     for idx, data in enumerate(query):
         row = 1 + idx
         Codigo = str(data.Codigo)
-        rna = str(data.RNA_id)
+        rna = str(data.RNA)
         examinado = Avaluador.objects.get(pk=rna)
         id = str(examinado.Identificacion)
         worksheet.write_string(row, 0, Codigo,center)
