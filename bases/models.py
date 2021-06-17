@@ -36,6 +36,8 @@ class Examen(models.Model):
     PrimerVencimiento = models.DateField()
     Renovacion = models.DateField()
     Vencimiento = models.DateField()
+    def __str__(self):
+        return ("Codigo " + str(self.Codigo) + " RNA " + str(self.RNA))
     class Meta:
         verbose_name_plural = "Examenes"
     
