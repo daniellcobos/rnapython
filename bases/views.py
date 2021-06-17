@@ -5,52 +5,66 @@ from .models import *
 import io
 from xlsxwriter.workbook import Workbook
 import xlsxwriter
-
+from datetime import datetime
 
 def WriteToExcel(weather_data, town=None):
-    headers = ['Codigo','RNA','Nombre','Apellidos','Identificacion','Fecha de Nacimiento',"Email",'Categoria','Solicitud','Aprobacion','Vencimento','Otorgamiento','Primer Vencimiento']
+    
     output = io.BytesIO()
     workbook = Workbook(output, {'in_memory': True})
     worksheet = workbook.add_worksheet()
-    headerf = workbook.add_format(  {'bg_color': '#F7F7F7',
-    'color': 'black',
+    headerf = workbook.add_format(  {'bg_color': '#002206',
+    'color': 'white',
+    'align': 'center',
+    'valign': 'top',
+    'border': 1})
+    headere = workbook.add_format(  {'bg_color': '#001b44',
+    'color': 'white',
     'align': 'center',
     'valign': 'top',
     'border': 1})
     center = workbook.add_format({'align': 'center','valign': 'center',})
     worksheet.set_column('A:E',15)
     worksheet.set_column('F:G',25)
-    worksheet.set_column('H:Z',20)
-    query = Examen.objects.all()
-    for i,head in enumerate(headers):
-        worksheet.write_string(0,i,head,headerf)
+    worksheet.set_column('H:CC',20)
+    query = Avaluador.objects.values()
+    eheader = Examen.objects.values().first().keys()
+    heads = query.first().keys()
+    
+    columna_inicial = 19
+    for n in range(6):
+        for i, e in enumerate(eheader):
+            worksheet.write(0, columna_inicial, e,headere)
+            columna_inicial = columna_inicial + 1
+    for i,d in enumerate(heads):
+        worksheet.write(0, i, d,headerf)
     for idx, data in enumerate(query):
         row = 1 + idx
-        Codigo = str(data.Codigo)
-        rna = str(data.RNA)
-        examinado = Avaluador.objects.get(pk=rna)
-        id = str(examinado.Identificacion)
-        worksheet.write_string(row, 0, Codigo,center)
-        worksheet.write_string(row, 1, rna,center)
-        worksheet.write(row, 2, examinado.Nombre)
-        worksheet.write(row, 3, examinado.Apellidos)
-        worksheet.write(row, 4, id,center)
-        worksheet.write(row, 5, examinado.Year.strftime('%d/%m/%Y'))
-        worksheet.write(row, 6, examinado.Email1)
-        worksheet.write_string(row, 7, data.Categoria)
-        worksheet.write(row, 8, data.Solicitud.strftime('%d/%m/%Y'),center)
-        worksheet.write(row, 10, data.Vencimiento.strftime('%d/%m/%Y'),center)
-        worksheet.write(row, 9, data.Aprobacion.strftime('%d/%m/%Y'),center)
-        worksheet.write(row, 11, data.Otorgamiento.strftime('%d/%m/%Y'),center)
-        worksheet.write(row, 12, data.PrimerVencimiento.strftime('%d/%m/%Y'),center)
+        ldata = list(data.values())
+        for i in range(len(data)):
+            write = ldata[i]
+            
+            if write == False:
+               write = "No"
+            if  write == True:
+                write = "Si"
+            worksheet.write(row,i,write,center)
+        query2= Examen.objects.filter(RNA = data['RNA']).values()
+        columns = 19
+        for q in query2:
+            listq = list(q.values())
+            for e in listq:
+                worksheet.write(row,columns,str(e),center)
+                columns = columns+1
+        
+   
         
     workbook.close()
 
     output.seek(0)
 
     response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    response['Content-Disposition'] = "attachment; filename=test.xlsx"
-
+    response['Content-Disposition'] = "attachment; filename=RNA{}.xlsx".format(datetime.now())
+    #response = HttpResponse("NADA")
     output.close()
 
     return response
