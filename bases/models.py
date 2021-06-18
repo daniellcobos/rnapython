@@ -27,7 +27,14 @@ class Avaluador(models.Model):
         verbose_name_plural = "Avaluadores"
 
 class Examen(models.Model):
-    Categoria= models.CharField(blank=True,max_length=100)
+    Categoria_CHOICES = [
+    ('INTES', 'INTES'),
+    ('URB', 'URB'),
+    ('RUR', 'RUR'),
+    ('ESP', 'ESP'),
+    ('MYE', 'MYE'),
+    ]
+    Categoria= models.CharField(blank=True,max_length=100,choices=Categoria_CHOICES)
     Codigo = models.BigIntegerField(primary_key=True)
     RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
     Solicitud = models.DateField()
