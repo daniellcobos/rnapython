@@ -15,12 +15,12 @@ class Avaluador(models.Model):
     Direccion = models.CharField(blank=True,max_length=100)
     Ciudad = models.CharField(blank=True,max_length=100)
     ConReg= models.CharField(blank=True,max_length=100)
-    Afliado = models.BooleanField()
-    Fallecido = models.BooleanField()
-    Suspendido = models.BooleanField()
     Comentarios = models.TextField(blank=True)
     Codinter = models.CharField(blank=True,max_length=100, verbose_name = "Codigo Internacional")
     Pais = models.CharField(blank=True,max_length=50)
+    Afliado = models.BooleanField(verbose_name='Afiliado')
+    Fallecido = models.BooleanField()
+    Suspendido = models.BooleanField()
     def __str__(self):
         return str(self.RNA)
     class Meta:
@@ -35,7 +35,7 @@ class Examen(models.Model):
     ('MYE', 'MYE'),
     ]
     Categoria= models.CharField(blank=True,max_length=100,choices=Categoria_CHOICES)
-    Codigo = models.BigIntegerField(primary_key=True)
+    Codigo = models.BigIntegerField(primary_key=True, verbose_name="Codigo Certificacion")
     RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
     Solicitud = models.DateField()
     Aprobacion = models.DateField()
