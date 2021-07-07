@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 class Avaluador(models.Model):
-    RNA = models.BigIntegerField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)")
-    Identificacion = models.BigIntegerField(unique=True)
+    RNA = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
+    Identificacion = models.CharField(unique=True,max_length=100)
     Nombre = models.CharField(max_length=100)
     Apellidos = models.CharField(max_length=100)
     Year = models.DateField(verbose_name = "Fecha de Nacimiento")
@@ -18,9 +18,9 @@ class Avaluador(models.Model):
     Comentarios = models.TextField(blank=True)
     Codinter = models.CharField(blank=True,max_length=100, verbose_name = "Codigo Internacional")
     Pais = models.CharField(blank=True,max_length=50)
-    Afliado = models.BooleanField(verbose_name='Afiliado')
-    Fallecido = models.BooleanField()
-    Suspendido = models.BooleanField()
+    Afliado = models.BooleanField(verbose_name='Afiliado',default=False)
+    Fallecido = models.BooleanField(default=False)
+    Suspendido = models.BooleanField(default=False)
     def __str__(self):
         return str(self.RNA)
     class Meta:
@@ -34,15 +34,15 @@ class Examen(models.Model):
     ('ESP', 'ESP'),
     ('MYE', 'MYE'),
     ]
-    Categoria= models.CharField(blank=True,max_length=100,choices=Categoria_CHOICES)
-    Codigo = models.BigIntegerField(primary_key=True, verbose_name="Codigo Certificacion")
+    Categoria= models.CharField(blank=True,max_length=30,choices=Categoria_CHOICES)
+    Codigo = models.CharField(primary_key=True, verbose_name="Codigo Certificacion",max_length=30)
     RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
-    Solicitud = models.DateField()
-    Aprobacion = models.DateField()
-    Otorgamiento = models.DateField()
-    PrimerVencimiento = models.DateField()
-    Renovacion = models.DateField()
-    Vencimiento = models.DateField()
+    Solicitud = models.DateField(blank=True,null= True )
+    Aprobacion = models.DateField(blank=True,null= True )
+    Otorgamiento = models.DateField(blank=True, null= True)
+    PrimerVencimiento = models.DateField(blank=True )
+    Renovacion = models.DateField(blank=True, null= True  )
+    Vencimiento = models.DateField(blank=True, null= True )
     def __str__(self):
         return ("Codigo " + str(self.Codigo) + " RNA " + str(self.RNA))
     class Meta:

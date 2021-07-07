@@ -6,7 +6,7 @@ import io
 from xlsxwriter.workbook import Workbook
 import xlsxwriter
 from datetime import datetime
-import pyodbc
+from .importers import exporter
 
 def WriteToExcel(weather_data, town=None):
     
@@ -79,11 +79,40 @@ def index(request):
     return HttpResponse("Aqui iba un reporte")
 
 def importer(request):
-    conn = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=path where you stored the Access file\file name.accdb;')
-    cursor = conn.cursor()
-    cursor.execute('select * from table name')
-   
-    for row in cursor.fetchall():
-        print (row)
-    #Quedapendienteelimportedearchivosenexcelyaccessss
-    #Haga eso, de veritass
+    data = exporter()
+    """   
+    for avaluador in data[0]:
+       
+        d = Avaluador(
+        RNA = avaluador['RNA'],
+        Identificacion = avaluador['CC'],
+        Nombre=avaluador['Nombre'],
+        Apellidos = avaluador['Apellido'],
+        Year = avaluador['Año'] ,
+        Email1 = 'notengo@correo.com',
+        Telefono = '1234567890',
+        Codinter = avaluador['Codiner'],
+        Pais = avaluador['pais'],
+        )
+        print(d)
+        d.save() 
+        """
+    for examen in data[1]:
+        if examen['Otorgacion'] != ' ':
+            print(examen)
+            e = Examen(
+                Codigo = examen['Codigo'],
+                RNA = Avaluador.objects.get(RNA = examen['RNA']),
+                Categoria = examen['Categoria'],
+                Otorgamiento = examen['Otorgacion'],
+                PrimerVencimiento =examen['PrimerVencimiento'],
+                Renovacion = examen['Renovacion'],
+                Vencimiento = examen['Vencimiento'],
+            )
+            print(e)
+            e.save()
+            
+    #print(data)
+    response = HttpResponse("NADA")
+    
+    return response
