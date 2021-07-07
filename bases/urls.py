@@ -4,5 +4,6 @@ from . import views
 app_name='bases'
 urlpatterns = [
     path('', views.WriteToExcel,name="reportes"),
+    path('import',views.importer,name= 'importer')
 ]
     
