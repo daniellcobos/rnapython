@@ -143,7 +143,7 @@ def index(request):
 def importer(request):
     data = exporter()
     
-    
+    '''
     for avaluador in data[0]:
        
         d = Avaluador(
@@ -159,7 +159,7 @@ def importer(request):
         )
         print(d)
         d.save() 
-        
+        '''
     for examen in data[1]:
         if examen['Otorgacion'] != ' ':
             print(examen)
