@@ -76,7 +76,7 @@ def WriteToExcel(weather_data, town=None):
     return response
 def testAccess(request):
     data = accessExcel()
-    """
+    
     for avaluador in data[0]:
         Avid =avaluador['RNA']
         avAfiliado = False
@@ -119,7 +119,7 @@ def testAccess(request):
             )
             print(d)
             d.save() 
-      """
+      
     for examen in data[1]:
         if examen['Otorgacion'] != ' ':
             print(examen)
@@ -144,7 +144,7 @@ def importer(request):
     
     
     for avaluador in data[0]:
-       """ 
+       
         d = Avaluador(
         RNA = avaluador['RNA'],
         Identificacion = avaluador['CC'],
@@ -158,7 +158,7 @@ def importer(request):
         )
         print(d)
         d.save() 
-        """
+        
     for examen in data[1]:
         if examen['Otorgacion'] != ' ':
             print(examen)
