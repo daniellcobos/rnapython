@@ -3,11 +3,11 @@ from django.db import models
 # Create your models here.
 class Avaluador(models.Model):
     RNA = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
-    Identificacion = models.CharField(unique=True,max_length=100)
+    Identificacion = models.CharField(max_length=100)
     Nombre = models.CharField(max_length=100)
     Apellidos = models.CharField(max_length=100)
-    Year = models.DateField(verbose_name = "Fecha de Nacimiento")
-    Email1=models.EmailField(verbose_name = "Email (Obligatorio)")
+    Year = models.DateField(blank = True, verbose_name = "Fecha de Nacimiento")
+    Email1=models.EmailField(blank=True,verbose_name = "Email (Obligatorio)")
     Email2=models.EmailField(blank=True)
     Telefono=models.CharField(blank=True,max_length=100)
     Fax= models.CharField(blank=True,max_length=100)
@@ -22,7 +22,7 @@ class Avaluador(models.Model):
     Fallecido = models.BooleanField(default=False)
     Suspendido = models.BooleanField(default=False)
     def __str__(self):
-        return str(self.RNA)
+        return str(self.Nombre + " "+ self.Apellidos + " ("+ self.RNA+")")
     class Meta:
         verbose_name_plural = "Avaluadores"
 

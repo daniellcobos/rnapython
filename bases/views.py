@@ -6,7 +6,7 @@ import io
 from xlsxwriter.workbook import Workbook
 import xlsxwriter
 from datetime import datetime
-from .importers import exporter
+from .importers import exporter,accessExcel
 
 def WriteToExcel(weather_data, town=None):
     
@@ -74,13 +74,61 @@ def WriteToExcel(weather_data, town=None):
     output.close()
 
     return response
-
+def testAccess(request):
+    data = accessExcel()
+    
+    for avaluador in data[0]:
+        Avid =avaluador['RNA']
+        avAfiliado = False
+        avSuspendido = False
+        if avaluador['Estado'] == 'vigente':
+            avAfiliado = True
+        if avaluador['Estado'] == 'Vencido' or avaluador['Estado'] == 'Cancelado':
+            avSuspendido = True
+        if Avaluador.objects.filter(pk=Avid).exists():
+            d = Avaluador.objects.filter(pk=Avid).update(
+            Nombre=avaluador['Nombre'],
+            Apellidos = avaluador['Apellido'],
+            Email1 = avaluador['Email1'],
+            Email2 = avaluador['Email2'],
+            Telefono = avaluador['Telefono'],
+            ConReg = avaluador['ConReg'],
+            Afliado = avAfiliado,
+            Suspendido = avSuspendido,
+            Direccion = avaluador['Direccion'],
+            Celular = avaluador['Celular'],
+            Comentarios = avaluador['Comentarios'],
+            )
+            
+        else:
+            d = Avaluador(
+            RNA = Avid,
+            Identificacion = avaluador['CC'],
+            Nombre=avaluador['Nombre'],
+            Apellidos = avaluador['Apellido'],
+            Email1 = avaluador['Email1'],
+            Email2 = avaluador['Email2'],
+            Telefono = avaluador['Telefono'],
+            ConReg = avaluador['ConReg'],
+            Afliado = avAfiliado,
+            Suspendido = avSuspendido,
+            Direccion = avaluador['Direccion'],
+            Celular = avaluador['Celular'],
+            Comentarios = avaluador['Comentarios'],
+            Year = datetime.now()
+            )
+            print(d)
+            d.save() 
+        
+        
+    return HttpResponse("Aqui va algo, pero no se que es")
 def index(request):
     return HttpResponse("Aqui iba un reporte")
 
 def importer(request):
     data = exporter()
-    """   
+    
+    
     for avaluador in data[0]:
        
         d = Avaluador(
@@ -111,7 +159,7 @@ def importer(request):
             )
             print(e)
             e.save()
-            
+     """  
     #print(data)
     response = HttpResponse("NADA")
     
