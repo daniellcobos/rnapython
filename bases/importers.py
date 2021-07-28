@@ -58,7 +58,7 @@ def accessExcel():
             'Categoria': 'URB',
             'Otorgacion': dateotorconverter(sheet.cell_value(i,36)),
             'PrimerVencimiento': dateconverter(sheet.cell_value(i,44)),
-            'Codigo': str(sheet.cell_value(i,16))+id,
+            'Codigo': 'URB'+id,
             'Renovacion':  datetime.now(),
             'Vencimiento':  datetime.now(),
         }
@@ -69,7 +69,7 @@ def accessExcel():
             'PrimerVencimiento': dateconverter(sheet.cell_value(i,10)),
             'Renovacion':  datetime.now(),
             'Vencimiento':  datetime.now(),
-            'Codigo': str(sheet.cell_value(i,19))+id,
+            'Codigo': 'RUR'+id,
         }
         mye = {
             'RNA': id,
@@ -78,7 +78,7 @@ def accessExcel():
             'PrimerVencimiento': dateconverter(sheet.cell_value(i,15)),
             'Renovacion': datetime.now(),
             'Vencimiento': datetime.now(),
-            'Codigo': str(sheet.cell_value(i,22))+id,
+            'Codigo':'MYE'+id,
         }
         mmo = {
             'RNA':id,
@@ -87,7 +87,7 @@ def accessExcel():
             'PrimerVencimiento': dateconverter(sheet.cell_value(i,20)),
             'Renovacion': dateconverter(sheet.cell_value(i,21)),
             'Vencimiento': dateconverter(sheet.cell_value(i,22)),
-            'Codigo': str(sheet.cell_value(i,25))+id,
+            'Codigo': 'MMO'+id,
         }
       
         if(sheet.cell_value(i,16)):
