@@ -15,7 +15,7 @@ class Avaluador(models.Model):
     Direccion = models.CharField(blank=True,max_length=100)
     Ciudad = models.CharField(blank=True,max_length=100)
     ConReg= models.CharField(blank=True,max_length=100)
-    Comentarios = models.TextField(blank=True)
+    Comentarios = models.TextField(blank=True,max_length=1000)
     Codinter = models.CharField(blank=True,max_length=100, verbose_name = "Codigo Internacional")
     Pais = models.CharField(blank=True,max_length=50)
     Afliado = models.BooleanField(verbose_name='Afiliado',default=False)

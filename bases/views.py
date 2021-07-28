@@ -97,7 +97,7 @@ def testAccess(request):
             Suspendido = avSuspendido,
             Direccion = avaluador['Direccion'],
             Celular = avaluador['Celular'],
-            Comentarios = avaluador['Comentarios'],
+            
             )
             
         else:
@@ -114,7 +114,7 @@ def testAccess(request):
             Suspendido = avSuspendido,
             Direccion = avaluador['Direccion'],
             Celular = avaluador['Celular'],
-            Comentarios = avaluador['Comentarios'],
+    
             Year = datetime.now()
             )
             print(d)
