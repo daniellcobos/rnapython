@@ -75,8 +75,9 @@ def WriteToExcel(weather_data, town=None):
 
     return response
 def testAccess(request):
-    data = accessExcel()
     
+    data = accessExcel()
+    '''
     for avaluador in data[0][2000:]:
         Avid =avaluador['RNA']
         avAfiliado = False
@@ -119,7 +120,7 @@ def testAccess(request):
             )
             print(d)
             d.save() 
-      
+      '''
     for examen in data[1]:
         if examen['Otorgacion'] != ' ':
             print(examen)
