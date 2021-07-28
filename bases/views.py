@@ -76,7 +76,7 @@ def WriteToExcel(weather_data, town=None):
     return response
 def testAccess(request):
     data = accessExcel()
-    
+    """
     for avaluador in data[0]:
         Avid =avaluador['RNA']
         avAfiliado = False
@@ -119,7 +119,21 @@ def testAccess(request):
             )
             print(d)
             d.save() 
-        
+      """
+    for examen in data[1]:
+        if examen['Otorgacion'] != ' ':
+            print(examen)
+            e = Examen(
+                Codigo = examen['Codigo'],
+                RNA = Avaluador.objects.get(RNA = examen['RNA']),
+                Categoria = examen['Categoria'],
+                Otorgamiento = examen['Otorgacion'],
+                PrimerVencimiento =examen['PrimerVencimiento'],
+                Renovacion = examen['Renovacion'],
+                Vencimiento = examen['Vencimiento'],
+            )
+            print(e)
+            e.save()  
         
     return HttpResponse("Aqui va algo, pero no se que es")
 def index(request):
@@ -130,7 +144,7 @@ def importer(request):
     
     
     for avaluador in data[0]:
-       
+       """ 
         d = Avaluador(
         RNA = avaluador['RNA'],
         Identificacion = avaluador['CC'],
@@ -159,7 +173,7 @@ def importer(request):
             )
             print(e)
             e.save()
-     """  
+      
     #print(data)
     response = HttpResponse("NADA")
     
