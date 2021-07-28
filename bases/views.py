@@ -77,7 +77,7 @@ def WriteToExcel(weather_data, town=None):
 def testAccess(request):
     data = accessExcel()
     
-    for avaluador in data[0]:
+    for avaluador in data[0][1000:]:
         Avid =avaluador['RNA']
         avAfiliado = False
         avSuspendido = False
