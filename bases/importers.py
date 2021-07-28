@@ -1,5 +1,5 @@
 import xlrd 
-import pyodbc
+
 from pathlib import Path
 from datetime import datetime
 from .models import Avaluador, Examen
