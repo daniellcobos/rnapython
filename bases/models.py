@@ -1,6 +1,16 @@
 from django.db import models
 
 # Create your models here.
+class PersonaJuridica(models.model):
+    NIT = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
+    ConReg= models.CharField(blank=True,max_length=100, verbose_name='Consejo Regional')
+    Telefono=models.CharField(blank=True,max_length=100)
+    Fax= models.CharField(blank=True,max_length=100)
+    Celular=models.CharField(max_length=100, verbose_name = "Telefono Movil (Obligatorio)")
+    Direccion = models.CharField(blank=True,max_length=200)
+    Nombre = models.CharField(max_length=200)
+    RepresenanteApellidos = models.CharField(max_length=100)
+    RepresenanteNombres = models.CharField(max_length=100)
 class Avaluador(models.Model):
     RNA = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
     Identificacion = models.CharField(max_length=100)
@@ -14,13 +24,14 @@ class Avaluador(models.Model):
     Celular=models.CharField(max_length=100, verbose_name = "Telefono Movil (Obligatorio)")
     Direccion = models.CharField(blank=True,max_length=200)
     Ciudad = models.CharField(blank=True,max_length=100)
-    ConReg= models.CharField(blank=True,max_length=100)
+    ConReg= models.CharField(blank=True,max_length=100, verbose_name='Consejo Regional')
     Comentarios = models.TextField(blank=True,max_length=1000)
     Codinter = models.CharField(blank=True,max_length=100, verbose_name = "Codigo Internacional")
     Pais = models.CharField(blank=True,max_length=50)
     Afliado = models.BooleanField(verbose_name='Afiliado',default=False)
     Fallecido = models.BooleanField(default=False)
     Suspendido = models.BooleanField(default=False)
+    PersonaJuridica = models.ForeignKey(PersonaJuridica,blank=True,null=True)
     def __str__(self):
         return str(self.Nombre + " "+ self.Apellidos + " ("+ self.RNA+")")
     class Meta:
