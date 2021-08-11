@@ -1,16 +1,17 @@
 from django.db import models
 
 # Create your models here.
-class PersonaJuridica(models.model):
+class PersonaJuridica(models.Model):
     NIT = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
     ConReg= models.CharField(blank=True,max_length=100, verbose_name='Consejo Regional')
     Telefono=models.CharField(blank=True,max_length=100)
     Fax= models.CharField(blank=True,max_length=100)
-    Celular=models.CharField(max_length=100, verbose_name = "Telefono Movil (Obligatorio)")
+    Celular=models.CharField(blank=True,max_length=100, verbose_name = "Telefono Movil (Obligatorio)")
     Direccion = models.CharField(blank=True,max_length=200)
     Nombre = models.CharField(max_length=200)
-    RepresenanteApellidos = models.CharField(max_length=100)
-    RepresenanteNombres = models.CharField(max_length=100)
+    RepresenanteApellidos = models.CharField(blank=True,max_length=100)
+    RepresenanteNombres = models.CharField(blank=True,max_length=100)
+    Comentarios = models.TextField(blank=True,max_length=1000)
 class Avaluador(models.Model):
     RNA = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
     Identificacion = models.CharField(max_length=100)
@@ -31,7 +32,7 @@ class Avaluador(models.Model):
     Afliado = models.BooleanField(verbose_name='Afiliado',default=False)
     Fallecido = models.BooleanField(default=False)
     Suspendido = models.BooleanField(default=False)
-    PersonaJuridica = models.ForeignKey(PersonaJuridica,blank=True,null=True)
+    PersonaJuridica = models.ForeignKey(PersonaJuridica,blank=True,null=True,on_delete=models.SET_NULL)
     def __str__(self):
         return str(self.Nombre + " "+ self.Apellidos + " ("+ self.RNA+")")
     class Meta:

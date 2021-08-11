@@ -5,6 +5,7 @@ from datetime import datetime
 from .models import Avaluador, Examen
 
 excel = Path.cwd() / '2. RNA ONAC JUN 2021.xls'
+excelPj = Path.cwd() / 'PersonasJuridicas.xls'
 access = str(Path.cwd() / 'LISTADO.xls') 
 
 def dateconverter(dateexcel):
@@ -209,3 +210,35 @@ def exporter():
         certficiaciones.append(intesesp)
         print(id)
     return [avaluadores,certficiaciones]
+    
+def PjImporter():
+    personasJuridicas = []
+    wb = xlrd.open_workbook(access)
+    sheet = wb.sheet_by_index(0)
+    for i in range(1,sheet.nrows):
+     nit = str(sheet.cell_value(i,12))
+     nombre = str(sheet.cell_value(i,6))
+     represenanteNombres = str(sheet.cell_value(i,11))
+     represenanteApellidos = str(sheet.cell_value(i,9)) + str(sheet.cell_value(i,11))
+     direccion = str(sheet.cell_value(i,30))
+     
+     fax = str(sheet.cell_value(i,33))
+     celular = str(sheet.cell_value(i,34))
+     telefono = str(sheet.cell_value(i,32))
+     conReg = str(sheet.cell_value(i,4))
+     comentarios = str('nada')
+     dict = {
+            'NIT':nit,
+            'Nombre':nombre,
+            'RepresenanteNombres': represenanteNombres,
+            'RepresenanteApellidos': represenanteApellidos,
+            'Direccion':direccion,
+            
+            'Celular': celular,
+            'Fax': fax,
+            'Telefono': telefono,
+            'ConReg': conReg,
+            'Comentarios': comentarios,
+        }
+     personasJuridicas.append(dict)
+    return personasJuridicas
