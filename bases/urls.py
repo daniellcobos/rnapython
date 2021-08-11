@@ -5,6 +5,7 @@ app_name='bases'
 urlpatterns = [
     path('', views.WriteToExcel,name="reportes"),
     path('import',views.importer,name= 'importer'),
-    path('access',views.testAccess,name= 'access')
+    path('access',views.testAccess,name= 'access'),
+    path('pj',views.Pjimporter,name= 'access'),
 ]
     

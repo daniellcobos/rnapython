@@ -6,7 +6,7 @@ import io
 from xlsxwriter.workbook import Workbook
 import xlsxwriter
 from datetime import datetime
-from .importers import exporter,accessExcel
+from .importers import *
 
 def WriteToExcel(weather_data, town=None):
     
@@ -178,4 +178,27 @@ def importer(request):
     #print(data)
     response = HttpResponse("NADA")
     
+    return response
+def Pjimporter(request):
+    data = PjImporter()
+    
+    
+    for pj in data:
+       
+        pj = PersonaJuridica(
+        NIT= pj['NIT'],
+        RepresenanteNombres = pj['RepresenanteNombres'],
+        Nombre=pj['Nombre'],
+        RepresenanteApellidos = pj['RepresenanteApellidos'],
+        Comentarios = pj['Comentarios'] ,
+    
+        Telefono = pj['Telefono'],
+        ConReg = pj['ConReg'],
+        Celular = pj['Celular'],
+        Fax = pj['Fax'],
+        )
+        
+        pj.save() 
+    
+    response = HttpResponse("NADA")
     return response
