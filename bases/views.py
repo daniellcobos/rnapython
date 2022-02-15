@@ -8,7 +8,7 @@ import xlsxwriter
 from datetime import datetime
 from .importers import *
 
-def WriteToExcel(weather_data, town=None):
+def WriteToExcel():
     
     output = io.BytesIO()
     workbook = Workbook(output, {'in_memory': True})
@@ -191,7 +191,6 @@ def Pjimporter(request):
         Nombre=pj['Nombre'],
         RepresenanteApellidos = pj['RepresenanteApellidos'],
         Comentarios = pj['Comentarios'] ,
-    
         Telefono = pj['Telefono'],
         ConReg = pj['ConReg'],
         Celular = pj['Celular'],
