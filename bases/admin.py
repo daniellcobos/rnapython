@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Avaluador, Examen
+from .models import Avaluador, Examen, PersonaJuridica
 class Exameninline(admin.TabularInline):
     model = Examen
 class AvaluadorAdmin(admin.ModelAdmin):
@@ -11,4 +11,5 @@ class ExamenAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Avaluador,AvaluadorAdmin)
 admin.site.register(Examen,ExamenAdmin)
+admin.site.register(PersonaJuridica)
 

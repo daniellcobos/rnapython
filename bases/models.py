@@ -12,6 +12,8 @@ class PersonaJuridica(models.Model):
     RepresenanteApellidos = models.CharField(blank=True,max_length=100)
     RepresenanteNombres = models.CharField(blank=True,max_length=100)
     Comentarios = models.TextField(blank=True,max_length=1000)
+    def __str__(self):
+        return str(self.Nombre)
 class Avaluador(models.Model):
     RNA = models.CharField(primary_key=True,verbose_name = "Codigo RNA (Obligatorio)",max_length=100)
     Identificacion = models.CharField(max_length=100)
