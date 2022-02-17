@@ -28,13 +28,13 @@ class Avaluador(models.Model):
     ConReg= models.CharField(blank=True,max_length=100, verbose_name='Consejo Regional')
     Comentarios = models.TextField(blank=True,max_length=1000)
     Codinter = models.CharField(blank=True,max_length=100, verbose_name = "Codigo Internacional")
-    Pais = models.CharField(blank=True,max_length=50)
-    Afiliado = models.CharField(blank=True,max_length=50)
-    TipoAfiliado =  models.CharField(blank=True,max_length=50)
+    Pais = models.CharField(blank=True,max_length=150)
+    Afiliado = models.CharField(blank=True,max_length=150)
+    TipoAfiliado =  models.CharField(blank=True,max_length=150)
     PersonaJuridica = models.ForeignKey(PersonaJuridica,blank=True,null=True,on_delete=models.SET_NULL)
-    Titulo = models.CharField(max_length=15, default= ' ')
+    Titulo = models.CharField(max_length=150, default= ' ')
     def __str__(self):
-        return str(self.Nombre + " "+ self.Apellidos + " ("+ self.RNA+")")
+        return str(self.Nombre + " "+ self.Apellidos)
     class Meta:
         verbose_name_plural = "Avaluadores"
 
@@ -49,8 +49,6 @@ class Certificacion(models.Model):
     Categoria= models.CharField(blank=True,max_length=30,choices=Categoria_CHOICES)
     Codigo = models.CharField(primary_key=True, verbose_name="Codigo Certificacion",max_length=30)
     RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
-    Solicitud = models.DateField(blank=True,null= True )
-    Aprobacion = models.DateField(blank=True,null= True )
     Otorgamiento = models.DateField(blank=True, null= True)
     PrimerVencimiento = models.DateField(blank=True )
     Renovacion = models.DateField(blank=True, null= True  )
@@ -58,7 +56,7 @@ class Certificacion(models.Model):
     def __str__(self):
         return ("Codigo " + str(self.Codigo) + " RNA " + str(self.RNA))
     class Meta:
-        verbose_name_plural = "Certifiaciones"
+        verbose_name_plural = "Certificaciones"
 class Email(models.Model):
     Email = models.EmailField(max_length=200)
     User = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
