@@ -2,7 +2,7 @@ import xlrd
 
 from pathlib import Path
 from datetime import datetime
-from .models import Avaluador, Examen
+from .models import *
 
 excel = Path.cwd() / '2. RNA ONAC JUN 2021.xls'
 excelPj = Path.cwd() / 'PersonasJuridicas.xls'
