@@ -75,5 +75,22 @@ def Importer(tipo):
         if Avaluador.objects.filter(pk = row['Matrícula']).exists():
             newCert.save()
             print(row['Cod_{type}'.format(type = tipo)])
-
+def IntImporter(tipo):
+    registerU = register[register.Nat_o_Jurid == 'N']
+    registerU = registerU.dropna(subset=['Cod_{type}'.format(type = tipo)])
+    #fill for Pandas
+    registerU = registerU.fillna(datetime(2100,1,1))
+    registerU = registerU[[ 'Matrícula','{type}_Otorgamiento'.format(type = tipo),
+     '{type}_Vencimiento'.format(type = tipo), 'Cod_{type}'.format(type = tipo)]]
+    for index, row in registerU.iterrows():
+        newCert = Certificacion(
+            Categoria= '{type}'.format(type = tipo),
+            Codigo = row['Cod_{type}'.format(type = tipo)],
+            RNA = Avaluador.objects.get(pk = row['Matrícula'.format(type = tipo)]),
+            Otorgamiento = dateNuller(row['{type}_Otorgamiento'.format(type = tipo)]),
+            PrimerVencimiento = dateNuller(row['{type}_Vencimiento'.format(type = tipo)]),
+            )
+        if Avaluador.objects.filter(pk = row['Matrícula']).exists():
+            newCert.save()
+            print(row['Cod_{type}'.format(type = tipo)])
 

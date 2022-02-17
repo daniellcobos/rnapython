@@ -86,3 +86,27 @@ def UrbanImporter(request):
 def RuralImporter(request):
     Importer('RUR')
     return  HttpResponse('Importado')
+
+def MaqImporter(request):
+    Importer('MYE')
+    return  HttpResponse('Importado')
+
+def EspecialesImporter(request):
+    Importer('ESP')
+    return  HttpResponse('Importado')
+
+def IntUrbanImporter(request):
+    IntImporter('INTES_URB')
+    return  HttpResponse('Importado')
+
+def IntRuralImporter(request):
+    IntImporter('INTES_RUR')
+    return  HttpResponse('Importado')
+
+def IntMaqImporter(request):
+    IntImporter('INTES_MYE')
+    return  HttpResponse('Importado')
+
+def IntEspecialesImporter(request):
+    IntImporter('INTES_ESP')
+    return  HttpResponse('Importado')
