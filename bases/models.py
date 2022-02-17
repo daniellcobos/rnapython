@@ -60,3 +60,5 @@ class Certificacion(models.Model):
 class Email(models.Model):
     Email = models.EmailField(max_length=200)
     User = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
+    def __str__(self):
+        return(self.Email)

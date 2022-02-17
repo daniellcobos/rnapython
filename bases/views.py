@@ -110,3 +110,7 @@ def IntMaqImporter(request):
 def IntEspecialesImporter(request):
     IntImporter('INTES_ESP')
     return  HttpResponse('Importado')
+
+def EmailImporter(requests):
+    EmailsImporter()
+    return  HttpResponse('Aaaaaa')

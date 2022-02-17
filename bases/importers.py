@@ -66,7 +66,7 @@ def Importer(tipo):
         newCert = Certificacion(
             Categoria= '{type}'.format(type = tipo),
             Codigo = row['Cod_{type}'.format(type = tipo)],
-            RNA = Avaluador.objects.get(pk = row['Matrícula'.format(type = tipo)]),
+            RNA = Avaluador.objects.get(pk = row['Matrícula']),
             Otorgamiento = dateNuller(row['{type}_Otorgamiento'.format(type = tipo)]),
             PrimerVencimiento = dateNuller(row['{type}_Vencimiento'.format(type = tipo)]),
             Renovacion = dateNuller(row['{type}_Renovación'.format(type = tipo)]),
@@ -75,6 +75,8 @@ def Importer(tipo):
         if Avaluador.objects.filter(pk = row['Matrícula']).exists():
             newCert.save()
             print(row['Cod_{type}'.format(type = tipo)])
+
+
 def IntImporter(tipo):
     registerU = register[register.Nat_o_Jurid == 'N']
     registerU = registerU.dropna(subset=['Cod_{type}'.format(type = tipo)])
@@ -93,4 +95,17 @@ def IntImporter(tipo):
         if Avaluador.objects.filter(pk = row['Matrícula']).exists():
             newCert.save()
             print(row['Cod_{type}'.format(type = tipo)])
+
+def EmailsImporter():
+     registerE = register[register.Nat_o_Jurid == 'N']
+     registerE = registerE[['Matrícula','E-mail1', 'E-mail2', 'E-mail3']]
+     for index, row in registerE.iterrows():
+         if  Avaluador.objects.filter(pk = row['Matrícula']).exists():
+            
+            newEmail1 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),Email = row['E-mail1'] )
+            newEmail2 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),Email = row['E-mail2'])
+            newEmail3 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),Email = row['E-mail3'])
+            newEmail1.save()
+            newEmail2.save()
+            newEmail3.save()
 
