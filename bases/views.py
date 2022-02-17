@@ -8,7 +8,7 @@ import xlsxwriter
 from datetime import datetime
 from .importers import *
 
-def WriteToExcel():
+def WriteToExcel(request):
     
     output = io.BytesIO()
     workbook = Workbook(output, {'in_memory': True})
@@ -28,7 +28,7 @@ def WriteToExcel():
     worksheet.set_column('F:G',30)
     worksheet.set_column('H:CC',25)
     query = Avaluador.objects.values()
-    eheader = list(Certifiacion.objects.values().first().keys())
+    eheader = list(Certificacion.objects.values().first().keys())
     heads = list(query.first().keys())
     heads = heads[:-3]
    
@@ -54,7 +54,7 @@ def WriteToExcel():
         if ldata[18]:
             estado = estado + 'Suspendido '
         worksheet.write(row,16,estado,center)
-        query2= Certifiacion.objects.filter(RNA = data['RNA']).values()
+        query2= Certificacion.objects.filter(RNA = data['RNA']).values()
         columns = 17
         for q in query2:
             listq = list(q.values())
@@ -74,3 +74,15 @@ def WriteToExcel():
     output.close()
 
     return response
+
+def naturalImporter(request):
+    NaturalImporter()
+    return  HttpResponse('Importado')
+
+def UrbanImporter(request):
+    Importer('URB')
+    return  HttpResponse('Importado')
+
+def RuralImporter(request):
+    Importer('RUR')
+    return  HttpResponse('Importado')
