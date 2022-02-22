@@ -17,6 +17,6 @@ urlpatterns = [
     path('email', views.EmailImporter,name="email"),
     path('juridicos', views.PJimporter,name="Juridicos"),
     path('buscar', Search.as_view(),name="Busqueda"),
-    path('resultados',AvaluadorResult.as_view, name='search_results')
+    path('resultados',AvaluadorResult.as_view(), name='search_results')
 ]
     

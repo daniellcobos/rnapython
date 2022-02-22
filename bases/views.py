@@ -130,3 +130,10 @@ class Search(TemplateView):
 
 class AvaluadorResult(DetailView):
     template_name = 'Search.html'
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        print(query)
+        object_list = Avaluador.objects.filter(
+            Q(name__icontains=query) | Q(state__icontains=query)
+        )
+        return object_list
