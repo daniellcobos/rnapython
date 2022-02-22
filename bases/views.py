@@ -7,6 +7,11 @@ from xlsxwriter.workbook import Workbook
 import xlsxwriter
 from datetime import datetime
 from .importers import *
+from django.db.models.expressions import Window
+from django.db.models.functions import RowNumber
+from django.db.models import F
+
+
 
 def WriteToExcel(request):
     
@@ -113,4 +118,8 @@ def IntEspecialesImporter(request):
 
 def EmailImporter(requests):
     EmailsImporter()
+    return  HttpResponse('Aaaaaa')
+
+def PJimporter(requests):
+    JuridicosImporter()
     return  HttpResponse('Aaaaaa')

@@ -19,6 +19,16 @@ def Apellidos(str1,str2):
         surname = ' '
     return surname
 
+def RNAMat(str1,str2):
+    mat = " "
+    if type(str1) is str and type(str2) is int:
+        mat = str1 +'-' + str(str2)
+    elif type(str1) is str:
+        mat = str1
+    else:
+        mat = ' '
+    return mat
+
 def NaturalImporter(): 
     registerN = register[register.Nat_o_Jurid == 'N']
     registerN = registerN.fillna(datetime(1900,1,1))
@@ -63,18 +73,20 @@ def Importer(tipo):
     registerU = registerU[[ 'Matrícula','{type}_Otorgamiento'.format(type = tipo), '{type}_Vencimiento'.format(type = tipo),
        '{type}_Renovación'.format(type = tipo), '{type}_Vencimiento_2'.format(type = tipo), 'Cod_{type}'.format(type = tipo)]]
     for index, row in registerU.iterrows():
+        Codigorow = row['Cod_{type}'.format(type = tipo)],
         newCert = Certificacion(
             Categoria= '{type}'.format(type = tipo),
-            Codigo = row['Cod_{type}'.format(type = tipo)],
+            Codigo = Codigorow[0],
             RNA = Avaluador.objects.get(pk = row['Matrícula']),
             Otorgamiento = dateNuller(row['{type}_Otorgamiento'.format(type = tipo)]),
             PrimerVencimiento = dateNuller(row['{type}_Vencimiento'.format(type = tipo)]),
             Renovacion = dateNuller(row['{type}_Renovación'.format(type = tipo)]),
             Vencimiento =dateNuller(row['{type}_Vencimiento_2'.format(type = tipo)])
             )
-        if Avaluador.objects.filter(pk = row['Matrícula']).exists():
-            newCert.save()
-            print(row['Cod_{type}'.format(type = tipo)])
+        
+        if not Certificacion.objects.filter(Codigo = Codigorow[0] ).exists():
+                newCert.save()
+                print(row['Cod_{type}'.format(type = tipo)])
 
 
 def IntImporter(tipo):
@@ -109,3 +121,26 @@ def EmailsImporter():
             newEmail2.save()
             newEmail3.save()
 
+def JuridicosImporter():
+    registerJ = register[register.Nat_o_Jurid == 'J']
+    registerJ = registerJ[['NIT','Prefijo','Teléfonos','Fax',
+    'Matrícula','Persona_Natural_Apellido_1','Comentarios'
+    ,'Persona_Jurídica_Nombre','Representante_Legal_Apellido_1','Representante_Legal_Apellido_2'
+    ,'Representante_Legal_Nombres','Celular','Dirección','Consejo_regional'
+    ,'Ciudad']]
+    for index,row in registerJ.iterrows():
+        newPj = PersonaJuridica(
+            NIT = row['NIT'],
+            MatriculaRNA = RNAMat(row['Prefijo'],row['Matrícula']),
+            ConReg=  row['Consejo_regional'],
+            Telefono= row['Teléfonos'],
+            Fax= row['Fax'],
+            Celular= row['Celular'],
+            Direccion = row['Dirección'],
+            Nombre = row['Persona_Jurídica_Nombre'],
+            RepresenanteApellidos = Apellidos(row['Representante_Legal_Apellido_1'],row['Representante_Legal_Apellido_2']),
+            RepresenanteNombres = row['Representante_Legal_Nombres'],
+            Comentarios = row['Comentarios'],
+            )
+        print(newPj)
+        newPj.save()

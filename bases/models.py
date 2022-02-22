@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class PersonaJuridica(models.Model):
@@ -9,6 +10,7 @@ class PersonaJuridica(models.Model):
     Celular=models.CharField(blank=True,max_length=100, verbose_name = "Telefono Movil (Obligatorio)")
     Direccion = models.CharField(blank=True,max_length=200)
     Nombre = models.CharField(max_length=200)
+    MatriculaRNA = models.CharField(max_length=50,blank=True)
     RepresenanteApellidos = models.CharField(blank=True,max_length=100)
     RepresenanteNombres = models.CharField(blank=True,max_length=100)
     Comentarios = models.TextField(blank=True,max_length=1000)
@@ -47,18 +49,20 @@ class Certificacion(models.Model):
     ('MYE', 'MYE'),
     ]
     Categoria= models.CharField(blank=True,max_length=30,choices=Categoria_CHOICES)
-    Codigo = models.CharField(primary_key=True, verbose_name="Codigo Certificacion",max_length=30)
+    Codigo = models.CharField(unique=True, verbose_name="Codigo Certificacion",max_length=30)
     RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
     Otorgamiento = models.DateField(blank=True, null= True)
     PrimerVencimiento = models.DateField(blank=True )
     Renovacion = models.DateField(blank=True, null= True  )
     Vencimiento = models.DateField(blank=True, null= True )
+    Vigencia= models.PositiveIntegerField(blank=True, null= True,  validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Años de Vigencia' )
     def __str__(self):
         return ("Codigo " + str(self.Codigo) + " RNA " + str(self.RNA))
     class Meta:
         verbose_name_plural = "Certificaciones"
 class Email(models.Model):
     Email = models.EmailField(max_length=200)
-    User = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
+    User = models.ForeignKey(Avaluador,on_delete=models.CASCADE,blank=True, null=True)
+    PJ = models.ForeignKey(PersonaJuridica,on_delete=models.CASCADE,blank=True, null=True)
     def __str__(self):
         return(self.Email)
