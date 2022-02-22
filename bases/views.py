@@ -1,3 +1,4 @@
+from re import search, template
 from django.shortcuts import render
 from django.http import HttpResponse
 from . import urls
@@ -10,7 +11,7 @@ from .importers import *
 from django.db.models.expressions import Window
 from django.db.models.functions import RowNumber
 from django.db.models import F
-
+from django.views.generic import TemplateView, DetailView
 
 
 def WriteToExcel(request):
@@ -123,3 +124,9 @@ def EmailImporter(requests):
 def PJimporter(requests):
     JuridicosImporter()
     return  HttpResponse('Aaaaaa')
+
+class Search(TemplateView):
+    template_name = 'Search.html'
+
+class AvaluadorResult(DetailView):
+    template_name = 'Search.html'
