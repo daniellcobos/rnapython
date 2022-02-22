@@ -14,5 +14,7 @@ urlpatterns = [
     path('intmaquinaria', views.IntMaqImporter,name="Maquinaria"),
     path('intespeciales', views.IntEspecialesImporter,name="Rurales"),
     path('email', views.EmailImporter,name="email"),
+    path('juridicos', views.PJimporter,name="Juridicos"),
+
 ]
     
