@@ -6,11 +6,15 @@
     <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>  
 </head>
 <body>
-    <h2 class="display-5">Busqueda de Avaluadores</h2>
-    <form class="form-group" action="/excel/resultados" method="post">{% csrf_token %}
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Enviar" class="btn btn-primary">
-    </form>
+    
+    <div class="container bg-light">
+        <h2 class="display-5">Busqueda de Avaluadores</h2>
+        <form class="form-group" action="/excel/resultados" method="post">{% csrf_token %}
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Buscar" class="btn btn-primary">
+        </form>
+    </div>
+    
 </body>
 

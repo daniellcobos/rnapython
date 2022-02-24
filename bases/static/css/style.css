@@ -2,3 +2,6 @@
     display: flex;
     gap: 1rem;
 }
+body{
+    background-color: rgb(219, 219, 219);
+}
