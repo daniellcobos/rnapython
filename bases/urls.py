@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import url, include
 from . import views
-from . views import Search,AvaluadorResult
+from . views import Search,AvaluadorResult, showAvaluador
 app_name='bases'
 urlpatterns = [
     path('', views.WriteToExcel,name="reportes"),
@@ -16,7 +16,8 @@ urlpatterns = [
     path('intespeciales', views.IntEspecialesImporter,name="Rurales"),
     path('email', views.EmailImporter,name="email"),
     path('juridicos', views.PJimporter,name="Juridicos"),
-    path('buscar', Search.as_view(),name="Busqueda"),
-    path('resultados',AvaluadorResult.as_view(), name='search_results')
+    path('buscar', views.Search,name="Busqueda"),
+    path('resultados',views.AvaluadorResult, name='search_results'),
+    path('avaluador/<int:pk>',views.showAvaluador, name='detailview')
 ]
     

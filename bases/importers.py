@@ -31,7 +31,10 @@ def RNAMat(str1,str2):
 
 def NaturalImporter(): 
     registerN = register[register.Nat_o_Jurid == 'N']
-    registerN = registerN.fillna(datetime(1900,1,1))
+    registerN['Fecha_Nacimiento'] = registerN['Fecha_Nacimiento'].fillna(datetime(2100,1,1))
+    registerN['Persona_Natural_Apellido_2'] = registerN['Persona_Natural_Apellido_2'].fillna(" ")
+    registerN = registerN.fillna("Sin Informacion")
+
     for index, row in registerN.iterrows():
         newAvaluador = Avaluador(
             RNA = row['Matrícula'],
@@ -46,11 +49,14 @@ def NaturalImporter():
             Ciudad =  row['Ciudad'],
             ConReg=  row['Consejo_regional'],
             Comentarios =  row['Comentarios'],
-            Codinter =  row['Persona_Natural_Nombres'],
+            Codinter =  row['Cod_INTER'],
             Pais = row['PAIS'],
             Afiliado =  row['Afiliado'],
             TipoAfiliado =  row['Calidad_de_afiliado'],
             Titulo =  row['Título'],
+            Examenes =  row['Exámenes'],
+            Tramites =  row['Trámites'],
+            Estado =  row['Estado'],
         ) 
         if not Avaluador.objects.filter(pk = row['Matrícula']).exists():
             print( Apellidos(row['Persona_Natural_Apellido_1'],row['Persona_Natural_Apellido_2']))
@@ -87,7 +93,7 @@ def Importer(tipo):
         if not Certificacion.objects.filter(Codigo = Codigorow[0] ).exists():
                 newCert.save()
                 print(row['Cod_{type}'.format(type = tipo)])
-
+        
 
 def IntImporter(tipo):
     registerU = register[register.Nat_o_Jurid == 'N']
@@ -104,23 +110,30 @@ def IntImporter(tipo):
             Otorgamiento = dateNuller(row['{type}_Otorgamiento'.format(type = tipo)]),
             PrimerVencimiento = dateNuller(row['{type}_Vencimiento'.format(type = tipo)]),
             )
-        if Avaluador.objects.filter(pk = row['Matrícula']).exists():
+        if not Avaluador.objects.filter(pk = row['Matrícula']).exists():
             newCert.save()
             print(row['Cod_{type}'.format(type = tipo)])
 
 def EmailsImporter():
      registerE = register[register.Nat_o_Jurid == 'N']
      registerE = registerE[['Matrícula','E-mail1', 'E-mail2', 'E-mail3']]
+     registerE = registerE.fillna("nano")
      for index, row in registerE.iterrows():
          if  Avaluador.objects.filter(pk = row['Matrícula']).exists():
             
-            newEmail1 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),Email = row['E-mail1'] )
-            newEmail2 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),Email = row['E-mail2'])
-            newEmail3 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),Email = row['E-mail3'])
+            newEmail1 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),EmailString = row['E-mail1'] )
+            newEmail2 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),EmailString = row['E-mail2'])
+            newEmail3 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),EmailString = row['E-mail3'])
             newEmail1.save()
-            newEmail2.save()
-            newEmail3.save()
+            if not row['E-mail2'] == "nano":
+                newEmail2.save()
+            
+            elif not row['E-mail3'] == "nano":
+                newEmail3.save()
+               
+            
 
+            
 def JuridicosImporter():
     registerJ = register[register.Nat_o_Jurid == 'J']
     registerJ = registerJ[['NIT','Prefijo','Teléfonos','Fax',

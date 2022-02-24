@@ -29,6 +29,9 @@ class Avaluador(models.Model):
     Ciudad = models.CharField(blank=True,max_length=100)
     ConReg= models.CharField(blank=True,max_length=100, verbose_name='Consejo Regional')
     Comentarios = models.TextField(blank=True,max_length=1000)
+    Examenes = models.TextField(blank=True,max_length=1000)
+    Tramites = models.TextField(blank=True,max_length=1000)
+    Estado = models.TextField(blank=True,max_length=100)
     Codinter = models.CharField(blank=True,max_length=100, verbose_name = "Codigo Internacional")
     Pais = models.CharField(blank=True,max_length=150)
     Afiliado = models.CharField(blank=True,max_length=150)
@@ -61,7 +64,7 @@ class Certificacion(models.Model):
     class Meta:
         verbose_name_plural = "Certificaciones"
 class Email(models.Model):
-    Email = models.EmailField(max_length=200)
+    EmailString = models.EmailField(max_length=200)
     User = models.ForeignKey(Avaluador,on_delete=models.CASCADE,blank=True, null=True)
     PJ = models.ForeignKey(PersonaJuridica,on_delete=models.CASCADE,blank=True, null=True)
     def __str__(self):

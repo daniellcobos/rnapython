@@ -1,116 +1,79 @@
 <head>
     {% csrf_token %}
-    <link rel="stylesheet" href="index.css">
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>  
 </head>
 <body>
-    <div>
-    <div class="row">
+  
+    <div class="container">
+    <div class="row mt-2 border">
         
             
-            <p>Matricula</p>
-            <p>Natural/Juridica:</p>
-            <p>Matricula Empresa:</p>   
+            <h4 class="col">Matricula: {{av.RNA}}</h4>
+            <p class="col">Natural/Juridica: N</p>
+            <p class="col">Matricula Empresa:</p>   
            
     </div>
-    <div class="row">
+    <div class="row mt-2 border">
         
-            <p>Identificacion:</p>
-            <p>Estado:</p>
+            <p class="col">Identificacion: {{av.Identificacion}}</p>
+            <p class="col">Estado: {{av.Estado}}</p>
            
     </div>
-    <div class="row">
-        <p>Titulo:</p>
-        <p>Nombres:</p>
-        <p>Apellidos:</p>
-       
-</div>
-    <div class="row">
-        <div class="Certificaciones">
-            <ul>
-                <li>COD URB:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-                <li>Renovacion:</li>   
-                <li>Vencimiento2 :</li>      
+    <div class="row mt-2 border">
+        <p class="col">Titulo: {{av.Titulo}}</p>
+        <p class="col">Nombres: {{av.Nombre}}</p>
+        <p class="col">Apellidos: {{av.Apellidos}}</p>
+       </div>
+
+    <div class="row mt-2 border">
+        <h3>Certificaciones</h3>
+        {% for item in certs %}
+        <div class="col">
+            <ul  class=" list-group">
+                <li class="list-group-item">COD {{item.Categoria}}: {{item.Codigo}}</li>
+                <li class="list-group-item">Otorgamiento: {{item.Otorgamiento}}</li>
+                <li class="list-group-item">Vencimiento: {{item.PrimerVencimiento}}</li>
+                <li class="list-group-item">Renovacion: {{item.Renovacion}}</li>   
+                <li class="list-group-item">Vencimiento Renovacion: {{item.Vencimiento}}</li>      
             </ul>
         </div>
-        <div class="Certificaciones">
-            <ul>
-                <li>COD RUR:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-                <li>Renovacion:</li>   
-                <li>Vencimiento2 :</li>      
-            </ul>
-        </div>      <div class="Certificaciones">
-            <ul>
-                <li>COD MYE:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-                <li>Renovacion:</li>   
-                <li>Vencimiento2 :</li>      
-            </ul>
-        </div>      
-        <div class="Certificaciones">
-            <ul>
-                <li>COD ESP:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-                <li>Renovacion:</li>   
-                <li>Vencimiento2 :</li>      
-            </ul>
-        </div>
+        {% endfor %}
     </div>
-    <div class="row">
-        <div class="Certificaciones">
-            <ul>
-                <li>COD INTES URB:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>   
-            </ul>
-        </div>
-        <div class="Certificaciones">
-            <ul>
-                <li>COD INTES RUR:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-            </ul>
-        </div>      <div class="Certificaciones">
-            <ul>
-                <li>COD INTES MYE:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-            </ul>
-        </div>      
-        <div class="Certificaciones">
-            <ul>
-                <li>COD INTES ESP:</li>
-                <li>Otorgamiento:</li>
-                <li>Vencimiento:</li>
-            </ul>
-        </div>
+    <div class="row mt-2 border">
+        <div class="col"> <p>Cod Inter: {{av.Codinter}}</p></div>
+        <div class="col"> <p>Pais: {{av.Pais}}</p></div>
     </div>
-    <div class="row">
-        <p>Cod Inter</p>
-        <p>Pais</p>
-    </div>
-    <div class="row">
-        <ul>
-            <li>Pagina Web</li>
-            <li>Place Holder Email</li>
-            <li>Direccion</li>
-            <li>Telefonos</li>
-            <li>Fax</li>
-            <li>Celular</li>
-            <li>Ciudad</li>
-            <li>Comentarios</li>
+    <div class="row mt-2 border">
+        <ul class=" list-group col">
+            <li class="list-group-item">Fecha Nacimiento: {{av.Year}}</li>
+            {% for item in emails %}
+            <li class="list-group-item">Email: {{item.EmailString}}</li>
+            {% endfor %}
+            <li class="list-group-item">Direccion:{{av.Direccion}}</li>
+            <li class="list-group-item">Telefonos: {{av.Telefono}}</li>
+            <li class="list-group-item">Fax: {{av.Fax}}</li>
+            <li class="list-group-item">Celular: {{av.Celular}}</li>
+            <li class="list-group-item">Ciudad: {{av.Ciudad}}</li>
+            
         </ul>
-        <ul>
-            <li>Afiliado</li>
-            <li>Examenes</li>
-            <li>Tramites</li>
-            <li>Consejo Regional</li>
+        <ul class=" list-group col">
+            <li class="list-group-item">Esquema Afliado: {{av.Afiliado}}</li>
+            <li class="list-group-item">Tipo Afiliado: {{av.TipoAfiliado}}</li>
+            <li class="list-group-item">Consejo Regional: {{av.ConReg}}</li>
         </ul>
+    </div>
+    <div class="row mt-2 border">
+        <h4>Comentarios</h4>
+        <p>{{av.Comentarios}}</p>
+    </div>
+    <div class="row mt-2 border">
+    <h4>Examenes</h4>
+    <p class="col">{{av.Examenes}}</p>
+    <h4>Tramites</h4>
+    <p class="col">{{av.Tramites}}</p>
     </div>
 </div>
 </body>
