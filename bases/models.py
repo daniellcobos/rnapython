@@ -68,4 +68,4 @@ class Email(models.Model):
     User = models.ForeignKey(Avaluador,on_delete=models.CASCADE,blank=True, null=True)
     PJ = models.ForeignKey(PersonaJuridica,on_delete=models.CASCADE,blank=True, null=True)
     def __str__(self):
-        return(self.Email)
+        return(self.EmailString)
