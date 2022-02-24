@@ -7,7 +7,8 @@
 </head>
 <body>
   
-    <div class="container">
+    <div class="container bg-light">
+    <h3  class="mt-2">Registro</h3>
     <div class="row mt-2 border">
         
             
@@ -27,9 +28,9 @@
         <p class="col">Nombres: {{av.Nombre}}</p>
         <p class="col">Apellidos: {{av.Apellidos}}</p>
        </div>
-
-    <div class="row mt-2 border">
-        <h3>Certificaciones</h3>
+       <h3  class="mt-2">Certificaciones</h3>
+    <div class="row mt-2 border p-3 row-cols-3">
+        
         {% for item in certs %}
         <div class="col">
             <ul  class=" list-group">
@@ -42,10 +43,12 @@
         </div>
         {% endfor %}
     </div>
+    <h4  class="mt-2">Internacional</h4>
     <div class="row mt-2 border">
         <div class="col"> <p>Cod Inter: {{av.Codinter}}</p></div>
         <div class="col"> <p>Pais: {{av.Pais}}</p></div>
     </div>
+    <h4  class="mt-2">Datos Personales</h4>
     <div class="row mt-2 border">
         <ul class=" list-group col">
             <li class="list-group-item">Fecha Nacimiento: {{av.Year}}</li>
@@ -65,15 +68,21 @@
             <li class="list-group-item">Consejo Regional: {{av.ConReg}}</li>
         </ul>
     </div>
+    <h4  class="mt-2">Comentarios</h4>
     <div class="row mt-2 border">
-        <h4>Comentarios</h4>
+        
         <p>{{av.Comentarios}}</p>
     </div>
+    <h4  class="mt-2">Examenes</h4>
     <div class="row mt-2 border">
-    <h4>Examenes</h4>
+    
     <p class="col">{{av.Examenes}}</p>
-    <h4>Tramites</h4>
-    <p class="col">{{av.Tramites}}</p>
+    
+    
+    </div>
+    <h4 class="mt-2" >Tramites</h4>
+    <div class="row mt-2 border">
+        <p class="col">{{av.Tramites}}</p>
     </div>
 </div>
 </body>

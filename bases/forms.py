@@ -20,6 +20,7 @@ class CertificacionCreateForm(ModelForm):
         return model
 
 class SearchForm(forms.Form):
-    matricula = forms.CharField(label='Matricula', max_length=100,required=False)
-    nombre = forms.CharField(label='Nombre', max_length=100,required=False)
-    apellidos = forms.CharField(label='Apellidos', max_length=100,required=False)
+    matricula = forms.CharField(label='Matricula', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    nombre = forms.CharField(label='Nombre', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    apellidos = forms.CharField(label='Apellidos', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    identificacion = forms.CharField(label='Identificacion', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))

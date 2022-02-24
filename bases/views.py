@@ -135,14 +135,15 @@ def Search(request):
     return render(request, 'Search.html', {'form': form})
 
 def AvaluadorResult(request):
-
+    form = SearchForm()
     if request.method == 'POST':
       
         nombres = request.POST["nombre"]
         apellidos = request.POST["apellidos"]
         Matricula = request.POST['matricula']
+        id = request.POST['identificacion']
         if not apellidos and not nombres:
-             queryset = Avaluador.objects.filter(Q(RNA=Matricula))
+             queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Identificacion=id))
         elif not nombres:
             queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Apellidos__icontains=apellidos))
         elif not apellidos:
@@ -150,12 +151,12 @@ def AvaluadorResult(request):
         elif not Matricula:
              queryset = Avaluador.objects.filter(Q(Nombre__icontains=nombres) & Q(Apellidos__icontains=apellidos)) 
         else:
-             queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Nombre__icontains=nombres)|Q(Apellidos__icontains=apellidos))
+             queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Nombre__icontains=nombres)|Q(Apellidos__icontains=apellidos)|Q(Identificacion=id))
         results = []
         for q in queryset:
             results.append(q)
         print(results)
-        return render(request, 'Searchr.html', {'resultados': results})
+        return render(request, 'Searchr.html', {'resultados': results, 'form':form})
     else:
         return render(request, 'Sedarch.html')
 
