@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from .models import *
-from django.forms import *
+from django.forms import ModelForm
+from django import forms
 from dateutil.relativedelta import relativedelta
 
 class CertificacionCreateForm(ModelForm):
@@ -17,3 +18,8 @@ class CertificacionCreateForm(ModelForm):
         numero = int(results.Codigo.split('-')[1]) + 1
         model.Codigo = model.Categoria + '-' + str(numero) 
         return model
+
+class SearchForm(forms.Form):
+    matricula = forms.CharField(label='Matricula', max_length=100,required=False)
+    nombre = forms.CharField(label='Nombre', max_length=100,required=False)
+    apellidos = forms.CharField(label='Apellidos', max_length=100,required=False)

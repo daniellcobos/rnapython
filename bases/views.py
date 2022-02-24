@@ -1,6 +1,11 @@
+
+from ast import Return
+from curses.ascii import HT
 from re import search, template
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Q
+from .forms import SearchForm
 from . import urls
 from .models import *
 import io
@@ -125,15 +130,45 @@ def PJimporter(requests):
     JuridicosImporter()
     return  HttpResponse('Aaaaaa')
 
-class Search(TemplateView):
-    template_name = 'Search.html'
+def Search(request):
+    form = SearchForm()
+    return render(request, 'Search.html', {'form': form})
 
-class AvaluadorResult(DetailView):
-    template_name = 'Search.html'
-    def get_queryset(self): # new
-        query = self.request.GET.get('q')
-        print(query)
-        object_list = Avaluador.objects.filter(
-            Q(name__icontains=query) | Q(state__icontains=query)
-        )
-        return object_list
+def AvaluadorResult(request):
+
+    if request.method == 'POST':
+      
+        nombres = request.POST["nombre"]
+        apellidos = request.POST["apellidos"]
+        Matricula = request.POST['matricula']
+        if not apellidos and not nombres:
+             queryset = Avaluador.objects.filter(Q(RNA=Matricula))
+        elif not nombres:
+            queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Apellidos__icontains=apellidos))
+        elif not apellidos:
+            queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Nombre__icontains=nombres))
+        elif not Matricula:
+             queryset = Avaluador.objects.filter(Q(Nombre__icontains=nombres) & Q(Apellidos__icontains=apellidos)) 
+        else:
+             queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Nombre__icontains=nombres)|Q(Apellidos__icontains=apellidos))
+        results = []
+        for q in queryset:
+            results.append(q)
+        print(results)
+        return render(request, 'Searchr.html', {'resultados': results})
+    else:
+        return render(request, 'Sedarch.html')
+
+def showAvaluador(request,pk):
+    FetchedAvaluador = Avaluador.objects.get(RNA=pk)
+    avaluadorCerts = Certificacion.objects.filter(RNA=FetchedAvaluador)
+    emails = Email.objects.filter(User=FetchedAvaluador)
+    certs = []
+    emailav = []
+    for cert in avaluadorCerts:
+        certs.append(cert)
+    for email in emails:
+        emailav.append(email)
+    return render(request, 'Results.html',{'av': FetchedAvaluador, 'certs':certs, 'emails': emailav} )
+
+

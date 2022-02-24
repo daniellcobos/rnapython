@@ -1,9 +1,16 @@
-<form action="/excel/resultados" method="post">{% csrf_token %}
-<label>Matricula:</label>  <br>
- <input type="text"><br>
- <label>Nombres:</label>  <br>
-<input type="text"><br>
-<label>Apellidos:</label>  <br>
- <input type="text"><br>
- <input type="submit">
-</form>
+<head>
+    {% csrf_token %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>  
+</head>
+<body>
+    <h2 class="display-5">Busqueda de Avaluadores</h2>
+    <form class="form-group" action="/excel/resultados" method="post">{% csrf_token %}
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Enviar" class="btn btn-primary">
+    </form>
+</body>
+

@@ -1,0 +1,16 @@
+<head>
+    {% csrf_token %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>  
+</head>
+<a href="/excel/buscar">Buscar de nuevo</a>
+<div>
+    <h3>Resultados</h3>
+    <ul>
+        {% for item in resultados %}
+        <li><a href="/excel/avaluador/{{ item.RNA }}">{{ item.Nombre }}  {{item.Apellidos}} </a></li>
+         {% endfor %}
+    </ul>
+</div>
