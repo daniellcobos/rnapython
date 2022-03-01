@@ -18,6 +18,8 @@ urlpatterns = [
     path('juridicos', views.PJimporter,name="Juridicos"),
     path('buscar', views.Search,name="Busqueda"),
     path('resultados',views.AvaluadorResult, name='search_results'),
-    path('avaluador/<int:pk>',views.showAvaluador, name='detailview')
+    path('avaluador/<int:pk>',views.showAvaluador, name='detailview'),
+    path('subirarchivo',views.subirArchivo, name='subirArchivo'),
+    path('leerarchivo',views.leerArchivo, name='leerArchivo'),
 ]
     

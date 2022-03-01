@@ -29,7 +29,7 @@ def RNAMat(str1,str2):
         mat = ' '
     return mat
 
-def NaturalImporter(): 
+def NaturalImporter(register):
     registerN = register[register.Nat_o_Jurid == 'N']
     registerN['Fecha_Nacimiento'] = registerN['Fecha_Nacimiento'].fillna(datetime(2100,1,1))
     registerN['Persona_Natural_Apellido_2'] = registerN['Persona_Natural_Apellido_2'].fillna(" ")
@@ -71,7 +71,7 @@ def dateNuller(date):
     else:
         return date
 
-def Importer(tipo):
+def Importer(tipo,register):
     registerU = register[register.Nat_o_Jurid == 'N']
     registerU = registerU.dropna(subset=['Cod_{type}'.format(type = tipo)])
     #fill for Pandas
@@ -95,7 +95,7 @@ def Importer(tipo):
                 print(row['Cod_{type}'.format(type = tipo)])
         
 
-def IntImporter(tipo):
+def IntImporter(tipo,regsiter):
     registerU = register[register.Nat_o_Jurid == 'N']
     registerU = registerU.dropna(subset=['Cod_{type}'.format(type = tipo)])
     #fill for Pandas
@@ -114,7 +114,7 @@ def IntImporter(tipo):
             newCert.save()
             print(row['Cod_{type}'.format(type = tipo)])
 
-def EmailsImporter():
+def EmailsImporter(register):
      registerE = register[register.Nat_o_Jurid == 'N']
      registerE = registerE[['Matrícula','E-mail1', 'E-mail2', 'E-mail3']]
      registerE = registerE.fillna("nano")
@@ -134,7 +134,7 @@ def EmailsImporter():
             
 
             
-def JuridicosImporter():
+def JuridicosImporter(register):
     registerJ = register[register.Nat_o_Jurid == 'J']
     registerJ = registerJ[['NIT','Prefijo','Teléfonos','Fax',
     'Matrícula','Persona_Natural_Apellido_1','Comentarios'

@@ -23,6 +23,7 @@ def WriteToExcel(request):
     #redo the excel report
     df = pd.DataFrame(list(Avaluador.objects.values()))
     df2 = pd.DataFrame(list(Certificacion.objects.values()))
+    df1 = df.to_excel()
     print(df)
      
     response = HttpResponse("NADA")
@@ -116,4 +117,23 @@ def showAvaluador(request,pk):
         emailav.append(email)
     return render(request, 'Results.html',{'av': FetchedAvaluador, 'certs':certs, 'emails': emailav} )
 
+def subirArchivo(request):
+    return render(request, 'Importer.html' )
 
+
+def leerArchivo(request):
+    if request.method == 'POST':
+        try:
+            file = request.FILES['import']
+            register = pd.read_excel(file,engine='openpyxl')
+            register.columns = [c.replace(' ', '_') for c in register.columns]
+            NaturalImporter(register)
+            JuridicosImporter(register)
+            EmailsImporter(register)
+            categorias = ['URB','RUR','ESP','MYE']
+            for cat in categorias:
+                Importer(cat,register)
+            return render(request, 'Importer.html' )
+        except:
+            return HttpResponse('Subiste el archivo equivocao')
+    

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <form  enctype="multipart/form-data" action="/excel/leerarchivo" method="post" >{% csrf_token %}
+        <div class="form-group">
+        <label for="import">Añadir archivo</label>
+        <input class="form-control-file"  type="file" name="import" id="import"  accept=".xls,.xlsx">
+      
+        </div>
+            <button class="btn btn-secondary">Enviar</button>
+    
+        
+    </form>
+</body>
+{% endblock %}
