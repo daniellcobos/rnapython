@@ -1,0 +1,33 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos Avaluadores RNA</title>
+    {% csrf_token %}
+   
+   
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand navbar-light " id="mainnav">
+            <a class="navbar-brand" href="#">RNA</a>
+            <ul class="nav navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="/excel/buscar">Buscar Avaluadores </a>
+                </li>
+             
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+       
+            {% block content %}
+            {% endblock %}
+
+    </main>
+</body>
