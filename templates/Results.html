@@ -35,9 +35,9 @@
                 <ul  class=" list-group">
                     <li class="list-group-item">COD {{item.Categoria}}: {{item.Codigo}}</li>
                     <li class="list-group-item">Otorgamiento: {{item.Otorgamiento}}</li>
-                    <li class="list-group-item">Vencimiento: {{item.PrimerVencimiento}}</li>
+                    <li class="list-group-item  {% if item.PrimerVencimiento < today %} bg-danger text-light{% endif %}">Vencimiento: {{item.PrimerVencimiento}}</li>
                     <li class="list-group-item">Renovacion: {{item.Renovacion}}</li>   
-                    <li class="list-group-item">Vencimiento Renovacion: {{item.Vencimiento}}</li>      
+                    <li class="list-group-item {% if item.Vencimiento and item.Vencimiento < today %} bg-danger text-light{% endif %}"">Vencimiento Renovacion: {{item.Vencimiento}}</li>      
                 </ul>
             </div>
             {% endfor %}

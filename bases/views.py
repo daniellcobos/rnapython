@@ -11,7 +11,7 @@ from .models import *
 import io
 from xlsxwriter.workbook import Workbook
 import xlsxwriter
-from datetime import datetime
+from datetime import datetime, date
 from .importers import *
 from django.db.models.expressions import Window
 from django.db.models.functions import RowNumber
@@ -63,6 +63,7 @@ def AvaluadorResult(request):
 
 def showAvaluador(request,pk):
     FetchedAvaluador = Avaluador.objects.get(RNA=pk)
+    today = date.today()
     avaluadorCerts = Certificacion.objects.filter(RNA=FetchedAvaluador)
     emails = Email.objects.filter(User=FetchedAvaluador)
     certs = []
@@ -71,7 +72,8 @@ def showAvaluador(request,pk):
         certs.append(cert)
     for email in emails:
         emailav.append(email)
-    return render(request, 'Results.html',{'av': FetchedAvaluador, 'certs':certs, 'emails': emailav} )
+    
+    return render(request, 'Results.html',{'av': FetchedAvaluador, 'certs':certs, 'emails': emailav, 'today': today} )
 
 def subirArchivo(request):
     return render(request, 'Importer.html' )
