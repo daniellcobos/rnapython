@@ -31,50 +31,6 @@ def WriteToExcel(request):
 
     return response
 
-def naturalImporter(request):
-    NaturalImporter()
-    return  HttpResponse('Importado')
-
-def UrbanImporter(request):
-    Importer('URB')
-    return  HttpResponse('Importado')
-
-def RuralImporter(request):
-    Importer('RUR')
-    return  HttpResponse('Importado')
-
-def MaqImporter(request):
-    Importer('MYE')
-    return  HttpResponse('Importado')
-
-def EspecialesImporter(request):
-    Importer('ESP')
-    return  HttpResponse('Importado')
-
-def IntUrbanImporter(request):
-    IntImporter('INTES_URB')
-    return  HttpResponse('Importado')
-
-def IntRuralImporter(request):
-    IntImporter('INTES_RUR')
-    return  HttpResponse('Importado')
-
-def IntMaqImporter(request):
-    IntImporter('INTES_MYE')
-    return  HttpResponse('Importado')
-
-def IntEspecialesImporter(request):
-    IntImporter('INTES_ESP')
-    return  HttpResponse('Importado')
-
-def EmailImporter(requests):
-    EmailsImporter()
-    return  HttpResponse('Aaaaaa')
-
-def PJimporter(requests):
-    JuridicosImporter()
-    return  HttpResponse('Aaaaaa')
-
 def Search(request):
     form = SearchForm()
     return render(request, 'Search.html', {'form': form})
@@ -133,6 +89,9 @@ def leerArchivo(request):
             categorias = ['URB','RUR','ESP','MYE']
             for cat in categorias:
                 Importer(cat,register)
+            for cat in categorias:
+                Intcat = "INTES_" + cat
+                IntImporter(Intcat,register)
             return render(request, 'Importer.html' )
         except:
             return HttpResponse('Subiste el archivo equivocao')

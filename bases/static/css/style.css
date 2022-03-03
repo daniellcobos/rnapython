@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 .row{
     display: flex;
     gap: 1rem;
 }
 body{
-    background-color: rgb(219, 219, 219);
+    font-family: 'Didact Gothic', sans-serif !important;
 }
 #mainnav{
     background-color: #00440b;;

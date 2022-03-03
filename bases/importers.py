@@ -95,7 +95,8 @@ def Importer(tipo,register):
                 print(row['Cod_{type}'.format(type = tipo)])
         
 
-def IntImporter(tipo,regsiter):
+def IntImporter(tipo,register):
+    print('Cod_{type}'.format(type = tipo))
     registerU = register[register.Nat_o_Jurid == 'N']
     registerU = registerU.dropna(subset=['Cod_{type}'.format(type = tipo)])
     #fill for Pandas
@@ -103,14 +104,15 @@ def IntImporter(tipo,regsiter):
     registerU = registerU[[ 'Matrícula','{type}_Otorgamiento'.format(type = tipo),
      '{type}_Vencimiento'.format(type = tipo), 'Cod_{type}'.format(type = tipo)]]
     for index, row in registerU.iterrows():
+        Codigorow = row['Cod_{type}'.format(type = tipo)],
         newCert = Certificacion(
             Categoria= '{type}'.format(type = tipo),
-            Codigo = row['Cod_{type}'.format(type = tipo)],
+            Codigo = Codigorow[0],
             RNA = Avaluador.objects.get(pk = row['Matrícula'.format(type = tipo)]),
             Otorgamiento = dateNuller(row['{type}_Otorgamiento'.format(type = tipo)]),
             PrimerVencimiento = dateNuller(row['{type}_Vencimiento'.format(type = tipo)]),
             )
-        if not Avaluador.objects.filter(pk = row['Matrícula']).exists():
+        if not Certificacion.objects.filter(Codigo = Codigorow[0] ).exists():
             newCert.save()
             print(row['Cod_{type}'.format(type = tipo)])
 
@@ -124,11 +126,12 @@ def EmailsImporter(register):
             newEmail1 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),EmailString = row['E-mail1'] )
             newEmail2 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),EmailString = row['E-mail2'])
             newEmail3 = Email(User = Avaluador.objects.get(pk = row['Matrícula']),EmailString = row['E-mail3'])
-            newEmail1.save()
-            if not row['E-mail2'] == "nano":
+            if not Email.objects.filter(EmailString =  row['E-mail1'] ).exists():
+                newEmail1.save()
+            if not row['E-mail2'] == "nano" and not Email.objects.filter(EmailString =  row['E-mail2'] ).exists():
                 newEmail2.save()
             
-            elif not row['E-mail3'] == "nano":
+            elif not row['E-mail3'] == "nano" and not Email.objects.filter(EmailString =  row['E-mail3'] ).exists():
                 newEmail3.save()
                
             
