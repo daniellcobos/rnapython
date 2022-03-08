@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('excel/',include('bases.urls'))
-]
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 admin.site.site_header = "Administracion del RNA"
 admin.site.site_title = "Portal Administrativo del RNA"
 admin.site.index_title = "Bienvenido al portal admistrativo del RNA"

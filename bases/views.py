@@ -97,4 +97,8 @@ def leerArchivo(request):
             return render(request, 'Importer.html' )
         except:
             return HttpResponse('Subiste el archivo equivocao')
-    
+
+
+def phImporter(request):
+    PhotosImporter()
+    return HttpResponse('Fotos Importadas')

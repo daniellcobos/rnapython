@@ -1,9 +1,11 @@
-import xlrd 
+
 
 from pathlib import Path
 from datetime import datetime
 from .models import *
-
+import pyodbc
+from PIL import Image
+import io
 import pandas as pd
 
 register = pd.read_excel(r'C:\Users\RegistroNacional\Documents\rnabases\rnapython\c.xlsx')
@@ -160,3 +162,30 @@ def JuridicosImporter(register):
             )
         print(newPj)
         newPj.save()
+
+
+
+def PhotosImporter():
+    conn = pyodbc.connect('Driver={SQL Server};'
+                        'Server=localhost\SQLEXPRESS;'
+                        'Database=master;'
+                        'Trusted_Connection=yes;')
+
+    cursor = conn.cursor()
+    cursor.execute('SELECT Matrícula,Fotografía FROM Registro')
+    test = list(cursor)
+    for i in test:
+        try:
+            avaluador = Avaluador.objects.get(pk = i[0])
+            print(avaluador)
+            
+            print(avaluador.Photo)
+        except:
+            print("Foto no disponible", i[0])
+
+    
+
+
+
+ 
+

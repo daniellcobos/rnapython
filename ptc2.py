@@ -1,7 +1,8 @@
-
+import base64
+import imghdr
 import pyodbc
 from PIL import Image
-import io
+import os,io
 
 conn = pyodbc.connect('Driver={SQL Server};'
                       'Server=localhost\SQLEXPRESS;'
@@ -14,22 +15,17 @@ cursor.execute('SELECT Matrícula,Fotografía FROM Registro')
 
 
 test = list(cursor)
-fotos = []
-sinfotos = 0
-for i in test:
-  try:
-    data = i[1][102:]
-    data = b'BM H\x0c\x00\x00\x00\x00\x006\x00\x00\x00' + data
-    image = Image.open(io.BytesIO(data))
-    fotos.append(i[0])
-  except:
-    if i[1]:
-      sinfotos += 1
-print(sinfotos)
-print(len(fotos))
-  
+tester = test[998]
+print(tester[0])
+
+data = tester[1][0:200]
+image = print(data)
+print('\n')
 
 
 
- 
+with open("test.bmp", "rb") as image:
+  f = image.read()
 
+  b = bytes(f)
+#print(b[0:60]) 

@@ -21,6 +21,7 @@ class Avaluador(models.Model):
     Identificacion = models.CharField(max_length=100)
     Nombre = models.CharField(max_length=200)
     Apellidos = models.CharField(max_length=200)
+    Photo = models.ImageField(upload_to='photos', null = True, blank = True)
     Year = models.DateField(blank = True, verbose_name = "Fecha de Nacimiento")
     Telefono=models.CharField(blank=True,max_length=100)
     Fax= models.CharField(blank=True,max_length=100)

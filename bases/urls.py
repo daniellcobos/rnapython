@@ -10,5 +10,6 @@ urlpatterns = [
     path('avaluador/<int:pk>',views.showAvaluador, name='detailview'),
     path('subirarchivo',views.subirArchivo, name='subirArchivo'),
     path('leerarchivo',views.leerArchivo, name='leerArchivo'),
+    path('photos',views.phImporter, name='photos'),
 ]
     
