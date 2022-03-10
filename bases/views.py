@@ -43,7 +43,9 @@ def AvaluadorResult(request):
         apellidos = request.POST["apellidos"]
         Matricula = request.POST['matricula']
         id = request.POST['identificacion']
-        if not apellidos and not nombres:
+        if not apellidos and not nombres and not Matricula:
+             queryset = Avaluador.objects.filter(Q(Identificacion__icontains=id))
+        elif not apellidos and not nombres:
              queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Identificacion=id))
         elif not nombres:
             queryset = Avaluador.objects.filter(Q(RNA=Matricula)|Q(Apellidos__icontains=apellidos))

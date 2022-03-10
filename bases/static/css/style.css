@@ -10,3 +10,6 @@ body{
 #mainnav{
     background-color: #00440b;;
 }
+#photo{
+    max-height: 128px;
+}

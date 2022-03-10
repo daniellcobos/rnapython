@@ -5,7 +5,7 @@ from datetime import datetime
 from .models import *
 import pyodbc
 from PIL import Image
-import io
+import io, os
 import pandas as pd
 
 register = pd.read_excel(r'C:\Users\RegistroNacional\Documents\rnabases\rnapython\c.xlsx')
@@ -166,22 +166,17 @@ def JuridicosImporter(register):
 
 
 def PhotosImporter():
-    conn = pyodbc.connect('Driver={SQL Server};'
-                        'Server=localhost\SQLEXPRESS;'
-                        'Database=master;'
-                        'Trusted_Connection=yes;')
-
-    cursor = conn.cursor()
-    cursor.execute('SELECT Matrícula,Fotografía FROM Registro')
-    test = list(cursor)
-    for i in test:
+    directory = os.path.dirname(os.path.realpath(__file__))
+    list = Avaluador.objects.all()
+    for av in list:
         try:
-            avaluador = Avaluador.objects.get(pk = i[0])
-            print(avaluador)
-            
-            print(avaluador.Photo)
+            fullpath = os.path.join(directory,"photos2","{}.bmp".format(av.RNA))
+            av.Photo = fullpath
+            av.save()
+            print(fullpath)
+           
         except:
-            print("Foto no disponible", i[0])
+            print("Foto no disponible", av.RNA)
 
     
 

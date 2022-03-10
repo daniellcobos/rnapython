@@ -5,14 +5,14 @@
    
     <div class="container bg-light p-2">
     <div class="section border mt-2 bg-secondary p-2 text-dark bg-opacity-25">
-        <h3  class="mt-2">Registro</h3>
+        <h3  class="mt-2">Registro</h3> <span><a href="/admin/bases/avaluador/{{av.RNA}}/change">Editar</a></span>
         <div class="row mt-2 justify-content-start">
             
                 
                 <h4 class="col">Matricula: {{av.RNA}}</h4>
                 <p class="col">Natural/Juridica: N</p>
                 <div class="col">
-                    <img class="img-thumbnail float-right" src="{{av.Photo.url}}">
+                    <img id="photo" class="img-thumbnail float-right" src="{{av.Photo.url}}" alt="Foto no Disponible">
                 </div>
                    
                
