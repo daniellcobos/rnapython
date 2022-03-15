@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container  bg-light mt-1">
+  <h3>Avaluadores con Certificados/Renovaciones recientemente vencidos o proximos a vencer</h3>
+  <ul class="list-group list-group-flush">
+  {% for item in avaluadores %}
+    <li class="list-group-item list-group-item-primary"><a href="/excel/avaluador/{{item.RNA}}"> {{item.Nombre}} {{item.Apellidos}} </a></li>
+  {% endfor %}
+</ul>
+</div>
+
+{% endblock %}

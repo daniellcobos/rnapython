@@ -11,7 +11,7 @@ from .models import *
 import io
 from xlsxwriter.workbook import Workbook
 import xlsxwriter
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from .importers import *
 from django.db.models.expressions import Window
 from django.db.models.functions import RowNumber
@@ -23,9 +23,33 @@ def WriteToExcel(request):
     #redo the excel report
     df = pd.DataFrame(list(Avaluador.objects.values()))
     df2 = pd.DataFrame(list(Certificacion.objects.values()))
-    df1 = df.to_excel()
-    print(df)
-     
+    df2 = df2.groupby("RNA_id")
+    for i in range(1,9):
+            df["Categoria{}".format(i)] = ""
+            df["'Codigo'{}".format(i)] = ""
+            df["Otorgamiento{}".format(i)] =""
+            df["PrimerVencimiento{}".format(i)] = ""
+            df["Renovacion{}".format(i)] =""
+            df["Vencimiento{}".format(i)] = ""
+    for id in df['RNA']:
+       
+        index = df[df['RNA'] == id].index.item()
+        try:
+            certdf = df2.get_group(id)
+            rows = 1
+            for item,row in certdf.iterrows():
+                print(df.iloc[index])
+                df.iloc[index, df.columns.get_loc("Categoria{}".format(rows))] = row['Categoria']
+                df.iloc[index, df.columns.get_loc("'Codigo'{}".format(rows))] = row['Codigo']
+                df.iloc[index, df.columns.get_loc("Otorgamiento{}".format(rows))] =row['Otorgamiento']
+                df.iloc[index, df.columns.get_loc("PrimerVencimiento{}".format(rows))] = row['PrimerVencimiento']
+                df.iloc[index, df.columns.get_loc("Renovacion{}".format(rows))] =row['Renovacion']
+                df.iloc[index, df.columns.get_loc("Vencimiento{}".format(rows))] = row['Vencimiento']
+                rows += 1                 
+        except:
+            print(id)
+            
+    df.to_excel(r'Reporte.xlsx')
     response = HttpResponse("NADA")
    
 
@@ -104,3 +128,14 @@ def leerArchivo(request):
 def phImporter(request):
     PhotosImporter()
     return HttpResponse('Fotos Importadas')
+
+def buscarVencidos(request):
+    nextmonth = date.today() + timedelta(days=30)
+    list = Certificacion.objects.filter(Vencimiento__lte = nextmonth).filter(Vencimiento__gte = date.today() )
+    list2 = Certificacion.objects.filter(PrimerVencimiento__lte = nextmonth).filter(PrimerVencimiento__gte = date.today() )
+    avList = []
+    for l in list:
+        avList.append(l.RNA)
+    for l in list2:
+        avList.append(l.RNA)
+    return render(request, 'vencidos.html', {'avaluadores' : avList} )

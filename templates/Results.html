@@ -31,10 +31,10 @@
     </div>
     <div class="section border mt-2 bg-secondary p-2 text-dark bg-opacity-25">
         <h3  class="mt-2">Certificaciones</h3>
-        <div class="row mt-2  row-cols-3">
+        <div class="row mt-2  ">
             
             {% for item in certs %}
-            <div class="col">
+            <div class="col-3">
                 <ul  class=" list-group">
                     <li class="list-group-item">COD {{item.Categoria}}: {{item.Codigo}}</li>
                     <li class="list-group-item">Otorgamiento: {{item.Otorgamiento}}</li>
