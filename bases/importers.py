@@ -8,8 +8,8 @@ from PIL import Image
 import io, os
 import pandas as pd
 
-register = pd.read_excel(r'C:\Users\RegistroNacional\Documents\rnabases\rnapython\c.xlsx')
-register.columns = [c.replace(' ', '_') for c in register.columns]
+
+
 
 def Apellidos(str1,str2):
     surname = " "
