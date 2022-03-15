@@ -22,6 +22,7 @@ import pandas as pd
 def WriteToExcel(request):
     #redo the excel report
     df = pd.DataFrame(list(Avaluador.objects.values()))
+    df = df.drop('Photo', axis=1)
     df2 = pd.DataFrame(list(Certificacion.objects.values()))
     df2 = df2.groupby("RNA_id")
     for i in range(1,9):
