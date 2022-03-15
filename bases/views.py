@@ -10,7 +10,7 @@ from . import urls
 from .models import *
 import io
 from xlsxwriter.workbook import Workbook
-import xlsxwriter
+
 from datetime import datetime, date, timedelta
 from .importers import *
 from django.db.models.expressions import Window

@@ -3,7 +3,7 @@
 from pathlib import Path
 from datetime import datetime
 from .models import *
-import pyodbc
+
 from PIL import Image
 import io, os
 import pandas as pd
