@@ -54,7 +54,7 @@ class Certificacion(models.Model):
     ]
     Categoria= models.CharField(blank=True,max_length=30,choices=Categoria_CHOICES)
     Codigo = models.CharField(unique=True, verbose_name="Codigo Certificacion",max_length=30)
-    RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE)
+    RNA = models.ForeignKey(Avaluador,on_delete=models.CASCADE, related_name= "Certificacion")
     Otorgamiento = models.DateField(blank=True, null= True)
     PrimerVencimiento = models.DateField(blank=True )
     Renovacion = models.DateField(blank=True, null= True  )

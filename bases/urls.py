@@ -13,7 +13,7 @@ urlpatterns = [
     path('photos',views.phImporter, name='photos'),
     path('vencidos',views.buscarVencidos, name = 'vencidos'),
     path('vigentes',views.SearchVig, name = 'vigentes'),
-    path('resultadosvigentes',views.VigResult, name = 'vigentes')
-    
+    path('resultadosvigentes',views.VigResult, name = 'vigentes'),
+    path('avaluador', views.AvaluadorList.as_view(), name = 'avaluadores'),
 ]
     

@@ -19,6 +19,8 @@ from django.db.models.functions import RowNumber
 from django.db.models import F
 from django.views.generic import TemplateView, DetailView
 import pandas as pd
+from .serializers import AvaluadorSerializer
+from rest_framework import generics
 
 def WriteToExcel(request):
     #redo the excel report
@@ -183,3 +185,7 @@ def VigResult(request):
         return render(request, 'vigentes.html', {'avaluadores' : avList, 'vigente' : vigente, 'categoria' : categoria} )
     else:
         return HttpResponse("Mas Nada")
+
+class AvaluadorList(generics.ListAPIView):
+    queryset = Avaluador.objects.all()
+    serializer_class = AvaluadorSerializer
