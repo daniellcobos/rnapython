@@ -2,10 +2,11 @@
 from ast import Return
 from curses.ascii import HT
 from re import search, template
+from django import http
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.db.models import Q
-from .forms import SearchForm
+from .forms import SearchForm, SearchVigForm
 from . import urls
 from .models import *
 import io
@@ -40,7 +41,7 @@ def WriteToExcel(request):
             certdf = df2.get_group(id)
             rows = 1
             for item,row in certdf.iterrows():
-               
+                print(df.iloc[index])
                 df.iloc[index, df.columns.get_loc("Categoria_{}".format(rows))] = row['Categoria']
                 df.iloc[index, df.columns.get_loc("Codigo_{}".format(rows))] = row['Codigo']
                 df.iloc[index, df.columns.get_loc("Otorgamiento_{}".format(rows))] =row['Otorgamiento']
@@ -152,3 +153,33 @@ def buscarVencidos(request):
     for l in list2:
         avList.append(l.RNA)
     return render(request, 'vencidos.html', {'avaluadores' : avList} )
+
+def SearchVig(request):
+    form = SearchVigForm()
+    return render(request, 'SearchVig.html', {'form': form})
+
+def VigResult(request):
+    avList = []
+    if request.method == 'POST':
+        vigente = request.POST["Vigente"]
+        categoria = request.POST["Categoria"]
+        
+        print(vigente)
+        if vigente == 'Vigentes':
+            certs1 = Certificacion.objects.filter(Vencimiento__gte = date.today()).filter(Categoria = categoria)
+            certs2 = Certificacion.objects.filter(PrimerVencimiento__gte = date.today()).filter(Categoria = categoria)
+            for l in certs1:
+                avList.append(l.RNA)
+            for l in certs2:
+                avList.append(l.RNA)
+        elif vigente == 'Vencidos':
+            certs1 = Certificacion.objects.filter(Vencimiento__lte = date.today()).filter(Categoria = categoria)
+            certs2 = Certificacion.objects.filter(PrimerVencimiento__lte = date.today()).filter(Categoria = categoria)
+            for l in certs1:
+                avList.append(l.RNA)
+            for l in certs2:
+                avList.append(l.RNA)
+            
+        return render(request, 'vigentes.html', {'avaluadores' : avList, 'vigente' : vigente, 'categoria' : categoria} )
+    else:
+        return HttpResponse("Mas Nada")

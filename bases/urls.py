@@ -11,6 +11,9 @@ urlpatterns = [
     path('subirarchivo',views.subirArchivo, name='subirArchivo'),
     path('leerarchivo',views.leerArchivo, name='leerArchivo'),
     path('photos',views.phImporter, name='photos'),
-    path('vencidos',views.buscarVencidos, name = 'vencidos')
+    path('vencidos',views.buscarVencidos, name = 'vencidos'),
+    path('vigentes',views.SearchVig, name = 'vigentes'),
+    path('resultadosvigentes',views.VigResult, name = 'vigentes')
+    
 ]
     

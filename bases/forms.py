@@ -24,3 +24,16 @@ class SearchForm(forms.Form):
     nombre = forms.CharField(label='Nombre', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))
     apellidos = forms.CharField(label='Apellidos', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))
     identificacion = forms.CharField(label='Identificacion', max_length=100,required=False,widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+class SearchVigForm(forms.Form):
+    CHOICESVig=[('Vigentes','Vigentes'),
+         ('Vencidos','Vencidos')]
+    Categoria_CHOICES = [
+    ( 'URB', 'Urbano'),
+    ('RUR', 'Rural'),
+    ('ESP', 'Especiales'),
+    ('MYE', 'Maquinaria y Equipo'),
+    ]
+    Vigente = forms.ChoiceField(choices=CHOICESVig, widget=forms.RadioSelect)
+    Categoria = forms.ChoiceField(choices=Categoria_CHOICES, widget=forms.RadioSelect)
+   
