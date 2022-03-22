@@ -21,17 +21,18 @@ import pandas as pd
 
 def WriteToExcel(request):
     #redo the excel report
+    writer = pd.ExcelWriter(r'Reporte.xlsx', engine='xlsxwriter')
     df = pd.DataFrame(list(Avaluador.objects.values()))
     df = df.drop('Photo', axis=1)
     df2 = pd.DataFrame(list(Certificacion.objects.values()))
     df2 = df2.groupby("RNA_id")
     for i in range(1,9):
-            df["Categoria{}".format(i)] = ""
-            df["'Codigo'{}".format(i)] = ""
-            df["Otorgamiento{}".format(i)] =""
-            df["PrimerVencimiento{}".format(i)] = ""
-            df["Renovacion{}".format(i)] =""
-            df["Vencimiento{}".format(i)] = ""
+            df["Categoria_{}".format(i)] = ""
+            df["Codigo_{}".format(i)] = ""
+            df["Otorgamiento_{}".format(i)] =""
+            df["PrimerVencimiento_{}".format(i)] = ""
+            df["Renovacion_{}".format(i)] =""
+            df["Vencimiento_{}".format(i)] = ""
     for id in df['RNA']:
        
         index = df[df['RNA'] == id].index.item()
@@ -39,22 +40,33 @@ def WriteToExcel(request):
             certdf = df2.get_group(id)
             rows = 1
             for item,row in certdf.iterrows():
-                print(df.iloc[index])
-                df.iloc[index, df.columns.get_loc("Categoria{}".format(rows))] = row['Categoria']
-                df.iloc[index, df.columns.get_loc("'Codigo'{}".format(rows))] = row['Codigo']
-                df.iloc[index, df.columns.get_loc("Otorgamiento{}".format(rows))] =row['Otorgamiento']
-                df.iloc[index, df.columns.get_loc("PrimerVencimiento{}".format(rows))] = row['PrimerVencimiento']
-                df.iloc[index, df.columns.get_loc("Renovacion{}".format(rows))] =row['Renovacion']
-                df.iloc[index, df.columns.get_loc("Vencimiento{}".format(rows))] = row['Vencimiento']
+               
+                df.iloc[index, df.columns.get_loc("Categoria_{}".format(rows))] = row['Categoria']
+                df.iloc[index, df.columns.get_loc("Codigo_{}".format(rows))] = row['Codigo']
+                df.iloc[index, df.columns.get_loc("Otorgamiento_{}".format(rows))] =row['Otorgamiento']
+                df.iloc[index, df.columns.get_loc("PrimerVencimiento_{}".format(rows))] = row['PrimerVencimiento']
+                df.iloc[index, df.columns.get_loc("Renovacion_{}".format(rows))] =row['Renovacion']
+                df.iloc[index, df.columns.get_loc("Vencimiento_{}".format(rows))] = row['Vencimiento']
                 rows += 1                 
         except:
             print(id)
-            
-    df.to_excel(r'Reporte.xlsx')
-    response = HttpResponse("NADA")
+    df.to_excel(writer, sheet_name='reporte',index=False)
    
+    worksheet = writer.sheets['reporte']
+    data_format1 = writer.book.add_format({'bg_color': '#60A84D'})
+    worksheet.set_row(0,cell_format=data_format1)
+    worksheet.set_column("A:BR",25)
+    worksheet.autofilter(0, 0, df.shape[0], df.shape[1] - 1)
+    writer.save()
+    
 
-    return response
+
+
+    with open(r'Reporte.xlsx', 'rb') as fh:
+     response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+     response['Content-Disposition'] = "attachment; filename=RNA{}.xlsx".format(datetime.now())
+     return response
+    
 
 def Search(request):
     form = SearchForm()
