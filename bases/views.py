@@ -19,7 +19,7 @@ from django.db.models.functions import RowNumber
 from django.db.models import F
 from django.views.generic import TemplateView, DetailView
 import pandas as pd
-from .serializers import AvaluadorSerializer
+from .serializers import *
 from rest_framework import generics
 
 def WriteToExcel(request):
@@ -140,6 +140,16 @@ def leerArchivo(request):
         except:
             return HttpResponse('Subiste el archivo equivocao')
 
+def leerArchivoONAC(request):
+    if request.method == 'POST':
+            file = request.FILES['import']
+            register = pd.read_excel(file,engine='openpyxl',sheet_name='CERTIFICADOS ONAC')
+            register.columns = [c.replace('\n', '_') for c in register.columns]
+            register.columns = [c.replace(' ', '_') for c in register.columns]
+            ONACImporter(register)
+            print(register.columns)
+            return render(request, 'Importer.html' )
+       
 
 def phImporter(request):
     PhotosImporter()
@@ -168,14 +178,14 @@ def VigResult(request):
         
         print(vigente)
         if vigente == 'Vigentes':
-            certs1 = Certificacion.objects.filter(Vencimiento__gte = date.today()).filter(Categoria = categoria)
+            certs1 = Certificacion.objects.filter(Vencimiento__gte = date.today()).filter(Categoria = categoria).exclude(Vencimiento = None).distinct()
             certs2 = Certificacion.objects.filter(PrimerVencimiento__gte = date.today()).filter(Categoria = categoria)
             for l in certs1:
                 avList.append(l.RNA)
             for l in certs2:
                 avList.append(l.RNA)
         elif vigente == 'Vencidos':
-            certs1 = Certificacion.objects.filter(Vencimiento__lte = date.today()).filter(Categoria = categoria)
+            certs1 = Certificacion.objects.filter(Vencimiento__lte = date.today()).filter(Categoria = categoria).exclude(Vencimiento = None).distinct()
             certs2 = Certificacion.objects.filter(PrimerVencimiento__lte = date.today()).filter(Categoria = categoria)
             for l in certs1:
                 avList.append(l.RNA)
@@ -188,4 +198,12 @@ def VigResult(request):
 
 class AvaluadorList(generics.ListAPIView):
     queryset = Avaluador.objects.all()
-    serializer_class = AvaluadorSerializer
+    serializer_class = AvaluadorListSerializer
+
+class AvaluadorDetail(generics.RetrieveAPIView):
+     queryset = Avaluador.objects.all()
+     serializer_class = AvaluadorDetailSerializer
+
+class CertificadoDirectorioList(generics.ListAPIView):
+    queryset =Certificacion.objects.filter(Q(Vencimiento__gte = date.today())|Q(PrimerVencimiento__gte =date.today() ))
+    serializer_class = CertificacionDirectorioSerializer

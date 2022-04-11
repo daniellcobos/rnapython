@@ -3,7 +3,17 @@
 <body>
     <form  enctype="multipart/form-data" action="/excel/leerarchivo" method="post" >{% csrf_token %}
         <div class="form-group">
-        <label for="import">Añadir archivo</label>
+        <label for="import">Importar archivo tipo Access</label>
+        <input class="form-control-file"  type="file" name="import" id="import"  accept=".xls,.xlsx">
+      
+        </div>
+            <button class="btn btn-secondary">Enviar</button>
+    
+        
+    </form>
+    <form  enctype="multipart/form-data" action="/excel/leerarchivoONAC" method="post" >{% csrf_token %}
+        <div class="form-group">
+        <label for="import">Importar archivo tipo excel de ONAC</label>
         <input class="form-control-file"  type="file" name="import" id="import"  accept=".xls,.xlsx">
       
         </div>

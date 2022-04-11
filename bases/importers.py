@@ -73,6 +73,7 @@ def dateNuller(date):
     else:
         return date
 
+
 def Importer(tipo,register):
     registerU = register[register.Nat_o_Jurid == 'N']
     registerU = registerU.dropna(subset=['Cod_{type}'.format(type = tipo)])
@@ -177,10 +178,72 @@ def PhotosImporter():
            
         except:
             print("Foto no disponible", av.RNA)
+def CertVerifier(row):
+    if not Certificacion.objects.filter(Codigo = row['Cód_URB'] ).exists() and row['Cód_URB'] != datetime(2100,1,1):
+        newCertu = Certificacion(
+            Categoria= 'URB',
+            Codigo =  row['Cód_URB'],
+            RNA = Avaluador.objects.get(pk = row['RNA']),
+            Otorgamiento = dateNuller(row['URB__Otorgamiento']),
+            PrimerVencimiento = dateNuller(row['URB_Vencimiento']),
+            Renovacion = dateNuller(row['URB__Renovación']),
+            Vencimiento =dateNuller(row['URB_Vencimiento.1'])
+            )
+        try:
+            newCertu.save()
+        except:
+            print(newCertu)
+    if not Certificacion.objects.filter(Codigo = row['Cód_RUR'] ).exists() and row['Cód_RUR'] != datetime(2100,1,1):
+        newCertr = Certificacion(
+            Categoria= 'RUR',
+            Codigo =  row['Cód_RUR'],
+            RNA = Avaluador.objects.get(pk = row['RNA']),
+            Otorgamiento = dateNuller(row['RUR_Otorgamiento']),
+            PrimerVencimiento = dateNuller(row['RUR_Vencimiento']),
+            Renovacion = dateNuller(row['RUR_Renovación']),
+            Vencimiento =dateNuller(row['RUR_Vencimiento.1'])
+            )
+        try:
+            newCertr.save()
+        except:
+            print(newCertr)
+    if not Certificacion.objects.filter(Codigo = row['Cód_MYE'] ).exists() and row['Cód_MYE'] != datetime(2100,1,1):
+        newCertm = Certificacion(
+            Categoria= 'MYE',
+            Codigo =  row['Cód_MYE'],
+            RNA = Avaluador.objects.get(pk = row['RNA']),
+            Otorgamiento = dateNuller(row['MYE_Otorgamiento']),
+            PrimerVencimiento = dateNuller(row['MYE_Vencimiento']),
+            Renovacion = dateNuller(row['MYE_Renovación']),
+            Vencimiento =dateNuller(row['MYE_Vencimiento.1'])
+            )
+        try:
+            newCertm.save()
+        except:
+            print(newCertm)
+        
 
-    
+    if not Certificacion.objects.filter(Codigo = row['Cód_ESP'] ).exists() and row['Cód_ESP'] != datetime(2100,1,1):
+        newCerte = Certificacion(
+                Categoria= 'ESP',
+                Codigo =  row['Cód_ESP'],
+                RNA = Avaluador.objects.get(pk = row['RNA']),
+                Otorgamiento = dateNuller(row['ESP_Otorgamiento']),
+                PrimerVencimiento = dateNuller(row['ESP_Vencimiento']),
+                Renovacion = dateNuller(row['ESP_Renovación']),
+                Vencimiento =dateNuller(row['ESP_Vencimiento.1'])
+                )
+        try:
+            newCerte.save()
+        except:
+            print(newCerte)
 
-
-
- 
+def ONACImporter(register):
+    register1 = register.fillna(datetime(2100,1,1))
+    for index, row in register1.iterrows():
+        if  Avaluador.objects.filter(pk = row['RNA']).exists():    
+          CertVerifier(row)
+        else:
+            if row['RNA'] != datetime(2100,1,1):
+                print('No existe',row['NOMBRE'] )
 
