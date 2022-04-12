@@ -66,7 +66,7 @@ class Certificacion(models.Model):
         verbose_name_plural = "Certificaciones"
 class Email(models.Model):
     EmailString = models.EmailField(max_length=200)
-    User = models.ForeignKey(Avaluador,on_delete=models.CASCADE,blank=True, null=True)
+    User = models.ForeignKey(Avaluador,on_delete=models.CASCADE,blank=True, null=True, related_name="Email")
     PJ = models.ForeignKey(PersonaJuridica,on_delete=models.CASCADE,blank=True, null=True)
     def __str__(self):
         return(self.EmailString)
