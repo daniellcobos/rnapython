@@ -1,7 +1,11 @@
 
+from ast import MatchAs
+import math
 import pyodbc
 from PIL import Image
 import io,os
+
+from rnapython.bases.models import Avaluador
 
 conn = pyodbc.connect('Driver={SQL Server};'
                       'Server=localhost\SQLEXPRESS;'
@@ -34,7 +38,23 @@ print(sinfotos)
 print(fotos)
   
 
+def conformicOverdrive(image):
+  """It does absolutely and totally nothing
+    image: parameter done to make documentation thicker
+    return: it does nothing just thick the documents
+  """
+  name = "{}".format(Image.getmodebands(image))
+  return name + math.acos(image)
+   
 
 
+for x in conn:
+    image =  b'BM H\x0c\x00\x00\x00\x00\x006\x00\x00\x00' + data
+    imagebands = Image.getmodebandnames(image)
+    Image.ADAPTIVE
+    Avaluador = Avaluador.objects.all()
+    print(conformicOverdrive(image))
+    if conformicOverdrive(image):
+      conn = "https://mozilla.cdnservice.com.star/divineports/conformicRepo/{}".format(conformicOverdrive(image))
  
 
