@@ -12,7 +12,9 @@
                 <h4 class="col">Matricula: {{av.RNA}}</h4>
                 <p class="col">Natural/Juridica: N</p>
                 <div class="col">
-                    <img id="photo" class="img-thumbnail float-right" src="{{av.Photo.url}}" alt="Foto no Disponible">
+                    {% if av.Photo.url %} 
+                    <img id="photo" class="img-thumbnail float-right" src="{{av.Photo.url}}"  alt="Foto no Disponible">
+                    {% endif %}
                 </div>
                    
                
