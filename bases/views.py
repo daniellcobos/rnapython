@@ -137,7 +137,8 @@ def leerArchivo(request):
                 Intcat = "INTES_" + cat
                 IntImporter(Intcat,register)
             return render(request, 'Importer.html' )
-        except:
+        except Exception as e :
+            print(e)
             return HttpResponse('Subiste el archivo equivocao')
 
 def leerArchivoONAC(request):
