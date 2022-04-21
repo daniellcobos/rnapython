@@ -121,6 +121,11 @@ def showAvaluador(request,pk):
     return render(request, 'Results.html',{'av': FetchedAvaluador, 'certs':certs, 'emails': emailav, 'today': today} )
 
 @login_required
+def showCertificacion(request,pk):
+    FetchedCertificacion = Certificacion.objects.get(Codigo=pk)
+    return render(request, 'CertResults.html',{'certs': FetchedCertificacion } )
+
+@login_required
 def subirArchivo(request):
     return render(request, 'Importer.html' )
 
@@ -143,7 +148,7 @@ def leerArchivo(request):
             return render(request, 'Importer.html' )
         except Exception as e :
             print(e)
-            return render(request,'Error.html', {'e':e})
+            return render(request,'error.html', {'e':e})
 
 def leerArchivoONAC(request):
     if request.method == 'POST':
@@ -172,10 +177,12 @@ def buscarVencidos(request):
         avList.append(l.RNA)
     return render(request, 'vencidos.html', {'avaluadores' : avList} )
 
+
 @login_required
 def SearchVig(request):
     form = SearchVigForm()
     return render(request, 'SearchVig.html', {'form': form})
+
 
 @login_required
 def VigResult(request):
@@ -186,20 +193,13 @@ def VigResult(request):
         
         print(vigente)
         if vigente == 'Vigentes':
-            certs1 = Certificacion.objects.filter(Vencimiento__gte = date.today()).filter(Categoria = categoria).exclude(Vencimiento = None).distinct()
-            certs2 = Certificacion.objects.filter(PrimerVencimiento__gte = date.today()).filter(Categoria = categoria)
+            certs1 = Certificacion.objects.filter(Q(Vencimiento__gte = date.today())|Q(PrimerVencimiento__gte =date.today() )).filter(Categoria = categoria).distinct()
             for l in certs1:
-                avList.append(l.RNA)
-            for l in certs2:
                 avList.append(l.RNA)
         elif vigente == 'Vencidos':
-            certs1 = Certificacion.objects.filter(Vencimiento__lte = date.today()).filter(Categoria = categoria).exclude(Vencimiento = None).distinct()
-            certs2 = Certificacion.objects.filter(PrimerVencimiento__lte = date.today()).filter(Categoria = categoria)
-            for l in certs1:
+           certs1 = Certificacion.objects.filter(Q(Vencimiento__lte = date.today())|Q(PrimerVencimiento__lte =date.today() )).filter(Categoria = categoria).distinct()
+           for l in certs1:
                 avList.append(l.RNA)
-            for l in certs2:
-                avList.append(l.RNA)
-            
         return render(request, 'vigentes.html', {'avaluadores' : avList, 'vigente' : vigente, 'categoria' : categoria} )
     else:
         return HttpResponse("Mas Nada")

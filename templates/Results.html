@@ -4,41 +4,47 @@
 <body>
    
     <div class="container bg-light p-2">
-    <div class="section border mt-2 bg-secondary p-2 text-dark bg-opacity-25">
+    <div class="section  mt-2 p-2 text-dark ">
         <h3  class="mt-2">Registro</h3> <span><a href="/admin/bases/avaluador/{{av.RNA}}/change">Editar</a></span>
-        <div class="row mt-2 justify-content-start">
+       <div class="row mt-2 justify-content-start">
+        <div class="col" >
             
                 
-                <h4 class="col">Matricula: {{av.RNA}}</h4>
-                <p class="col">Natural/Juridica: N</p>
-                <div class="col">
-                    {% if av.Photo.url %} 
-                    <img id="photo" class="img-thumbnail float-right" src="{{av.Photo.url}}"  alt="Foto no Disponible">
-                    {% endif %}
-                </div>
-                   
+            <h4>Matricula: {{av.RNA}}</h4>
+            <p>Natural/Juridica: N</p>
+            <p>Titulo: {{av.Titulo}}</p>
                
-        </div>
-        <div class="row mt-2 justify-content-start">
-            
-                <p class="col-4">Identificacion: {{av.Identificacion}}</p>
-                <p class="col-4">Estado: {{av.Estado}}</p>
-               
-        </div>
-        <div class="row mt-2 justify-content-start">
-            <p class="col">Titulo: {{av.Titulo}}</p>
-            <p class="col">Nombres: {{av.Nombre}}</p>
-            <p class="col">Apellidos: {{av.Apellidos}}</p>
-           </div>
+           
     </div>
-    <div class="section border mt-2 bg-secondary p-2 text-dark bg-opacity-25">
+    <div class="col-4">
+        
+            <p>Identificacion: {{av.Identificacion}}</p>
+           
+            <p>Nombres: {{av.Nombre}}</p>
+            <p>Apellidos: {{av.Apellidos}}</p>
+    </div>
+    <div class="col">
+        <div>
+            {% if av.Photo.url %} 
+            <img id="photo" class="img-thumbnail float-right" src="{{av.Photo.url}}"  alt="Foto no Disponible">
+            {% endif %}
+        </div>
+        
+        <p>Estado: {{av.Estado}}</p>
+        
+       </div>
+       </div>
+        
+    </div>
+    <hr>
+    <div class="section mt-2  p-2 text-dark ">
         <h3  class="mt-2">Certificaciones</h3>
-        <div class="row mt-2  ">
+        <div class="row mt-2 py-2 border bg-secondary bg-opacity-25 ">
             
             {% for item in certs %}
             <div class="col-3">
                 <ul  class=" list-group">
-                    <li class="list-group-item">COD {{item.Categoria}}: {{item.Codigo}}</li>
+                    <li class="list-group-item"><a href="../certificado/{{item.Codigo}}">COD {{item.Categoria}}: {{item.Codigo}}</a> </li>
                     <li class="list-group-item">Otorgamiento: {{item.Otorgamiento}}</li>
                     <li class="list-group-item  {% if item.PrimerVencimiento < today %} bg-danger text-light{% endif %}">Vencimiento: {{item.PrimerVencimiento}}</li>
                     <li class="list-group-item">Renovacion: {{item.Renovacion}}</li>   
@@ -48,18 +54,18 @@
             {% endfor %}
         </div>
     </div>
-
-    <div class="section border mt-2 bg-secondary p-2 text-dark bg-opacity-25">
+    <hr>
+    <div class="section  mt-2  p-2 text-dark ">
         <h4  class="mt-2">Internacional</h4>
             <div class="row mt-2 ">
         <div class="col"> <p>Cod Inter: {{av.Codinter}}</p></div>
         <div class="col"> <p>Pais: {{av.Pais}}</p></div>
     </div>
     </div>
-    
-    <div class="section border mt-2 bg-secondary p-2 text-dark bg-opacity-25">
+    <hr>
+    <div class="section mt-2  p-2 text-dark ">
         <h4  class="mt-2">Datos Personales</h4>
-        <div class="row px-2 mt-2">
+        <div class="row  border p-2 mt-2 bg-secondary bg-opacity-25">
             <ul class=" list-group col">
                 <li class="list-group-item">Fecha Nacimiento: {{av.Year}}</li>
                 {% for item in emails %}
@@ -79,15 +85,16 @@
             </ul>
         </div>
     </div>
-    <div class="section border mt-2 bg-secondary px-3 text-dark bg-opacity-25">
+    <hr>
+    <div class="section  mt-2  px-3 text-dark">
         <h4  class="mt-2">Comentarios</h4>
         <div class="row my-2 bg-light">
             
             <p>{{av.Comentarios}}</p>
         </div>
     </div>
-   
-    <div class="section border mt-2 bg-secondary px-3 text-dark bg-opacity-25">
+    <hr>
+    <div class="section  mt-2 px-3 text-dark bg-opacity-25">
         <h4  class="mt-2">Examenes</h4>
         <div class="row my-2 bg-light ">
         
@@ -96,13 +103,14 @@
         
         </div>
     </div>
-    <div class="section border mt-2 bg-secondary p-3 text-dark bg-opacity-25">
+    <hr>
+    <div class="section mt-2 p-3 text-dark bg-opacity-25">
         <h4 class="mt-2" >Tramites</h4>
     <div class="row my-2 bg-light ">
         <p class="col">{{av.Tramites}}</p>
     </div>
     </div>
-    
+    <hr>
 </div>
 </body>
 {% endblock %}

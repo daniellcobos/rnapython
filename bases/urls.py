@@ -8,7 +8,7 @@ urlpatterns = [
     path('buscar', views.Search,name="Busqueda"),
     path('resultados',views.AvaluadorResult, name='search_results'),
     path('avaluador/<int:pk>',views.showAvaluador, name='detailview'),
-   
+    path('certificado/<str:pk>',views.showCertificacion, name='certdetail'),
     path('photos',views.phImporter, name='photos'),
     path('vencidos',views.buscarVencidos, name = 'vencidos'),
     path('vigentes',views.SearchVig, name = 'vigentes'),

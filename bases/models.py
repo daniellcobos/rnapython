@@ -46,7 +46,10 @@ class Avaluador(models.Model):
 
 class Certificacion(models.Model):
     Categoria_CHOICES = [
-    ('INTES', 'INTES'),
+    ('INTES URB', 'INTES URB'),
+    ('INTES RUR', 'INTES RUR'),
+    ('INTES ESP', 'INTES ESP'),
+    ('INTES MYE', 'INTES MYE'),
     ('URB', 'URB'),
     ('RUR', 'RUR'),
     ('ESP', 'ESP'),
