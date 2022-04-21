@@ -59,7 +59,8 @@ class Certificacion(models.Model):
     PrimerVencimiento = models.DateField(blank=True )
     Renovacion = models.DateField(blank=True, null= True  )
     Vencimiento = models.DateField(blank=True, null= True )
-    Vigencia= models.PositiveIntegerField(blank=True, null= True,  validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Años de Vigencia' )
+    VigenciaOtorgamiento= models.PositiveIntegerField(blank=True, null= True,  validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Años de Vigencia Otorgamiento' )
+    VigenciaRenovacion= models.PositiveIntegerField(blank=True, null= True,  validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Años de Vigencia Renovacion' )
     def __str__(self):
         return ("Codigo " + str(self.Codigo) + " RNA " + str(self.RNA))
     class Meta:

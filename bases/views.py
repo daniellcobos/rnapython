@@ -11,6 +11,7 @@ from . import urls
 from .models import *
 import io
 from xlsxwriter.workbook import Workbook
+from django.contrib.auth.decorators import login_required
 
 from datetime import datetime, date, timedelta
 from .importers import *
@@ -70,11 +71,12 @@ def WriteToExcel(request):
      response['Content-Disposition'] = "attachment; filename=RNA{}.xlsx".format(datetime.now())
      return response
     
-
+@login_required
 def Search(request):
     form = SearchForm()
     return render(request, 'Search.html', {'form': form})
 
+@login_required
 def AvaluadorResult(request):
     form = SearchForm()
     if request.method == 'POST':
@@ -103,6 +105,7 @@ def AvaluadorResult(request):
     else:
         return render(request, 'Sedarch.html')
 
+@login_required
 def showAvaluador(request,pk):
     FetchedAvaluador = Avaluador.objects.get(RNA=pk)
     today = date.today()
@@ -117,10 +120,11 @@ def showAvaluador(request,pk):
     
     return render(request, 'Results.html',{'av': FetchedAvaluador, 'certs':certs, 'emails': emailav, 'today': today} )
 
+@login_required
 def subirArchivo(request):
     return render(request, 'Importer.html' )
 
-
+@login_required
 def leerArchivo(request):
     if request.method == 'POST':
         try:
@@ -139,7 +143,7 @@ def leerArchivo(request):
             return render(request, 'Importer.html' )
         except Exception as e :
             print(e)
-            return HttpResponse('Subiste el archivo equivocao')
+            return render(request,'Error.html', {'e':e})
 
 def leerArchivoONAC(request):
     if request.method == 'POST':
@@ -156,6 +160,7 @@ def phImporter(request):
     PhotosImporter()
     return HttpResponse('Fotos Importadas')
 
+@login_required
 def buscarVencidos(request):
     nextmonth = date.today() + timedelta(days=30)
     list = Certificacion.objects.filter(Vencimiento__lte = nextmonth).filter(Vencimiento__gte = date.today() )
@@ -167,10 +172,12 @@ def buscarVencidos(request):
         avList.append(l.RNA)
     return render(request, 'vencidos.html', {'avaluadores' : avList} )
 
+@login_required
 def SearchVig(request):
     form = SearchVigForm()
     return render(request, 'SearchVig.html', {'form': form})
 
+@login_required
 def VigResult(request):
     avList = []
     if request.method == 'POST':

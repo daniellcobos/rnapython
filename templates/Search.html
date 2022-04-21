@@ -4,7 +4,7 @@
     
     <div class="container bg-light mt-1">
         <h2 class="display-5">Busqueda de Avaluadores</h2>
-        <form class="form-group" action="/excel/resultados" method="post">{% csrf_token %}
+        <form class="form-group" action="/bases/resultados" method="post">{% csrf_token %}
             {% csrf_token %}
             {{ form }}
             <input type="submit" value="Buscar" class="btn btn-primary">

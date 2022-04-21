@@ -20,7 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('excel/',include('bases.urls'))
+    path('bases/',include('bases.urls')),
+    path('excel/',include('bases.urls2'))
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 admin.site.site_header = "Administracion del RNA"
 admin.site.site_title = "Portal Administrativo del RNA"

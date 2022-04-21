@@ -3,7 +3,7 @@
 
 <div class="container bg-light bg-light mt-1">
     <h2 class="display-7">Busqueda de Avaluadores</h2>
-    <form class="form-group" action="/excel/resultados" method="post">{% csrf_token %}
+    <form class="form-group" action="/bases/resultados" method="post">{% csrf_token %}
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Buscar" class="btn btn-primary">
@@ -13,7 +13,7 @@
     <h3>Resultados</h3>
     <u class="list-group-flush">
         {% for item in resultados %}
-        <li class="list-group-item"><a class="link-dark" href="/excel/avaluador/{{ item.RNA }}">{{ item.Nombre }}  {{item.Apellidos}} </a></li>
+        <li class="list-group-item"><a class="link-dark" href="/bases/avaluador/{{ item.RNA }}">{{ item.Nombre }}  {{item.Apellidos}} </a></li>
          {% endfor %}
     </ul>
 </div>

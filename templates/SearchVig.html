@@ -4,7 +4,7 @@
     
     <div class="container bg-light mt-1">
         <h2 class="display-6">Busqueda de vigentes</h2>
-        <form class="form-group" action="/excel/resultadosvigentes" method="post">{% csrf_token %}
+        <form class="form-group" action="/bases/resultadosvigentes" method="post">{% csrf_token %}
             {% csrf_token %}
             {{ form }}
             <input type="submit" value="Buscar" class="btn btn-primary">
