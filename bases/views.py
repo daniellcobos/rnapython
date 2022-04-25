@@ -183,6 +183,10 @@ def SearchVig(request):
     form = SearchVigForm()
     return render(request, 'SearchVig.html', {'form': form})
 
+@login_required
+def Ampliacion(request):
+    form = SearchVigForm()
+    return render(request, 'SearchVig.html', {'form': form})
 
 @login_required
 def VigResult(request):
@@ -215,3 +219,13 @@ class AvaluadorDetail(generics.RetrieveAPIView):
 class CertificadoDirectorioList(generics.ListAPIView):
     queryset =Certificacion.objects.filter(Q(Vencimiento__gte = date.today())|Q(PrimerVencimiento__gte =date.today() ))
     serializer_class = CertificacionDirectorioSerializer
+
+class AvaluadorDirDep(generics.ListAPIView): 
+    serializer_class = CertificacionDirectorioSerializer
+    lookup_url_kwarg = "pk"
+    def get_queryset(self):
+        
+        pk = self.kwargs.get(self.lookup_url_kwarg)
+        print(pk)
+        avlist = Certificacion.objects.filter(Q(Vencimiento__gte = date.today())|Q(PrimerVencimiento__gte =date.today() )).filter(RNA__ConReg__icontains=pk)
+        return avlist
