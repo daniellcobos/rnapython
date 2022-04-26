@@ -18,9 +18,9 @@ ul {
     -webkit-columns: 2;
     -moz-columns: 2;
   }
-white :hover{
+.white{
     color:black !important
 }
-.white :hover{
+.white:hover{
     color:white !important
 }

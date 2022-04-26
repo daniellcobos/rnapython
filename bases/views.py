@@ -245,3 +245,7 @@ def CertGen(request,pk):
      response['Content-Disposition'] = 'attachment; filename=Certificado.docx'
      return response
 
+@login_required
+def InterCert(request):
+    return render(request, 'Inter.html')
+
