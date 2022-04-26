@@ -229,3 +229,19 @@ class AvaluadorDirDep(generics.ListAPIView):
         print(pk)
         avlist = Certificacion.objects.filter(Q(Vencimiento__gte = date.today())|Q(PrimerVencimiento__gte =date.today() )).filter(RNA__ConReg__icontains=pk)
         return avlist
+
+
+from .docmerge import Merger
+
+@login_required
+def CertGen(request,pk):
+    Cert = Certificacion.objects.get(Codigo = pk)
+    av = Cert.RNA
+    Certdoc = Merger(Cert,av) 
+    Certdoc.write('certificado.docx')
+    print(Certdoc)
+    with open('certificado.docx', 'rb') as fh:
+     response = HttpResponse(fh.read(), content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+     response['Content-Disposition'] = 'attachment; filename=Certificado.docx'
+     return response
+

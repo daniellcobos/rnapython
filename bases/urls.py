@@ -17,5 +17,6 @@ urlpatterns = [
     path('avaluador/api/<int:pk>', views.AvaluadorDetail.as_view(), name = 'avaluadors'),
     path('directorio', views.CertificadoDirectorioList.as_view(), name = 'directorio'),
     path('directorio/<str:pk>', views.AvaluadorDirDep.as_view(), name = 'directorio'),
+    path('generarcertificado/<str:pk>', views.CertGen, name = 'generar'),
 ]
     
