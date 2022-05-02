@@ -8,6 +8,7 @@ urlpatterns = [
     path('subirarchivo',views.subirArchivo, name='subirArchivo'),
     path('leerarchivo',views.leerArchivo, name='leerArchivo'),
     path('photos',views.phImporter, name='photos'),
-    path('leerarchivoONAC',views.leerArchivoONAC, name='leerArchivoOnac')
+    path('leerarchivoONAC',views.leerArchivoONAC, name='leerArchivoOnac'),
+    path('geocode',views.Geocode, name= 'geocode')
 ]
     

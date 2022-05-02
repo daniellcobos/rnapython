@@ -1,5 +1,6 @@
 
 from ast import Return
+from cmd import IDENTCHARS
 from curses.ascii import HT
 from re import search, template
 from django import http
@@ -183,10 +184,7 @@ def SearchVig(request):
     form = SearchVigForm()
     return render(request, 'SearchVig.html', {'form': form})
 
-@login_required
-def Ampliacion(request):
-    form = SearchVigForm()
-    return render(request, 'SearchVig.html', {'form': form})
+
 
 @login_required
 def VigResult(request):
@@ -246,6 +244,41 @@ def CertGen(request,pk):
      return response
 
 @login_required
-def InterCert(request):
-    return render(request, 'Inter.html')
-
+def InterCert(request,pk):
+    Certificado = Certificacion.objects.get(Codigo = pk)
+    Ncert = Certificado
+    Ncert.Codigo = "INTES-" + str(Certificado.Codigo)
+    Ncert.Categoria = "INTES-" + str(Certificado.Categoria)
+    CertCat = Certificado.Codigo.split("-")[0]
+    print(CertCat)
+    if CertCat == "INTES":
+        return render(request, 'Inter.html', {'certificado':pk, 'ncert':"No generamos na"})
+    else:
+        Ncert.id = None
+        print(Ncert)
+        Ncert.save()
+        return render(request, 'Inter.html', {'certificado':pk, 'ncert':Ncert.Codigo})
+from geopy.geocoders import Nominatim
+import time
+def Geocode(request):
+    Avlist = Avaluador.objects.all()
+    for Av in Avlist:
+        if Av.Direccion == "Sin Informacion":
+            Direccion = ""
+        else:
+            Direccion = Av.Direccion.split()
+            Direccion = (' '.join(Direccion[0:4])) + ","
+        if Av.Pais == "Sin Informacion":
+            pais = "Colombia"
+        else:
+            pais = Av.Pais
+        geocodelist = Direccion + Av.Ciudad +","+ pais
+        geolocator = Nominatim(user_agent="RNAavaluadores")
+        location = geolocator.geocode(geocodelist)
+        time.sleep(1.5)
+        print(location)
+        try:
+            print(geocodelist)
+        except:
+            print(None)
+    return HttpResponse('AAAA')

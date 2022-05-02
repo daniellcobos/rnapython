@@ -18,5 +18,6 @@ urlpatterns = [
     path('directorio', views.CertificadoDirectorioList.as_view(), name = 'directorio'),
     path('directorio/<str:pk>', views.AvaluadorDirDep.as_view(), name = 'directorio'),
     path('generarcertificado/<str:pk>', views.CertGen, name = 'generar'),
+    path('ampliar/<str:pk>', views.InterCert, name = 'ampliar'),
 ]
     
