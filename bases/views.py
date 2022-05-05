@@ -268,8 +268,8 @@ import time
 def Geocode(request):
     Avlist = Avaluador.objects.all()
     for Av in Avlist:
-        if Av.Direccion == " ":
-            Direccion = "Sin Informacion"
+        if Av.Direccion == "Sin Informacion":
+            Direccion = ""
         else:
             Direccion = Av.Direccion.split()
             for index,item in enumerate(Direccion):
@@ -289,7 +289,7 @@ def Geocode(request):
             pais = Av.Pais
         geocodelist = Direccion + Av.Ciudad +","+ pais
         
-        if Av.Coordenadas == "No disponible":
+        if Av.Coordenadas == " ":
             try:
                 geolocator = Nominatim(user_agent="RNAavaluadores")
                 location = geolocator.geocode(geocodelist)
