@@ -28,3 +28,8 @@ class CertificacionDirectorioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certificacion
         fields =  '__all__'
+class CoordenadasListSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Avaluador
+        fields = ['RNA', 'Coordenadas']

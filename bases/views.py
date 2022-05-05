@@ -210,6 +210,11 @@ class AvaluadorList(generics.ListAPIView):
     queryset = Avaluador.objects.all()
     serializer_class = AvaluadorListSerializer
 
+
+class CoordinateList(generics.ListAPIView):
+    queryset = Avaluador.objects.exclude(Coordenadas = "No disponible")
+    serializer_class = CoordenadasListSerializer
+
 class AvaluadorDetail(generics.RetrieveAPIView):
      queryset = Avaluador.objects.all()
      serializer_class = AvaluadorDetailSerializer
@@ -267,18 +272,39 @@ def Geocode(request):
             Direccion = ""
         else:
             Direccion = Av.Direccion.split()
-            Direccion = (' '.join(Direccion[0:4])) + ","
+            for index,item in enumerate(Direccion):
+                if item.startswith('OF') or item.startswith('Of'):
+                    item = ''
+                    Direccion[index] = item
+                if item == 'No.' or item  == 'NO':
+                    item = '#'
+                    Direccion[index] = item
+                elif item.startswith('NO.') or item.startswith('No.'):
+                    item = item[2:]
+                    Direccion[index] = item
+            Direccion = (' '.join(Direccion[0:5])) + ","   
         if Av.Pais == "Sin Informacion":
             pais = "Colombia"
         else:
             pais = Av.Pais
         geocodelist = Direccion + Av.Ciudad +","+ pais
-        geolocator = Nominatim(user_agent="RNAavaluadores")
-        location = geolocator.geocode(geocodelist)
-        time.sleep(1.5)
-        print(location)
-        try:
-            print(geocodelist)
-        except:
-            print(None)
+        
+        if Av.Coordenadas == "No disponible":
+            try:
+                geolocator = Nominatim(user_agent="RNAavaluadores")
+                location = geolocator.geocode(geocodelist)
+                print(geocodelist)
+                time.sleep(1)
+                if location:
+                    
+                    Av.Coordenadas = (str(location.latitude) +"," + str(location.longitude))
+                else:
+                    Av.Coordenadas = "No disponible"
+                print(Av.Coordenadas)
+                Av.save()
+            except:
+                Av.Coordenadas = "No disponible"
+                Av.save()
+        else:
+            print(Av.Coordenadas)
     return HttpResponse('AAAA')

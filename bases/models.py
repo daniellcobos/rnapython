@@ -39,6 +39,7 @@ class Avaluador(models.Model):
     TipoAfiliado =  models.CharField(blank=True,max_length=150)
     PersonaJuridica = models.ForeignKey(PersonaJuridica,blank=True,null=True,on_delete=models.SET_NULL)
     Titulo = models.CharField(max_length=150, default= ' ')
+    Coordenadas = models.CharField(max_length=150, default= ' ')
     def __str__(self):
         return str(self.Nombre + " "+ self.Apellidos)
     class Meta:

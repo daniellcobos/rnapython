@@ -19,5 +19,6 @@ urlpatterns = [
     path('directorio/<str:pk>', views.AvaluadorDirDep.as_view(), name = 'directorio'),
     path('generarcertificado/<str:pk>', views.CertGen, name = 'generar'),
     path('ampliar/<str:pk>', views.InterCert, name = 'ampliar'),
+    path('coordinatetest', views.CoordinateList.as_view(), name = 'coorlist'),
 ]
     
