@@ -1,6 +1,9 @@
 from django.urls import path, include
 from .models import *
 from rest_framework import routers, serializers, viewsets
+from django.core.serializers import serialize
+
+
 
 class EmailSerializer(serializers.ModelSerializer):
  class Meta:
@@ -28,8 +31,10 @@ class CertificacionDirectorioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certificacion
         fields =  '__all__'
-class CoordenadasListSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Avaluador
-        fields = ['RNA', 'Coordenadas']
+
+
+def CoordSerializer():
+    return serialize('geojson', Avaluador.objects.all(),
+          geometry_field='Coordenadas',
+          fields=('RNA','Direccion','Nombre','Apellidos','Celular')
+)

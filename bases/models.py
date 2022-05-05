@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 
 # Create your models here.
 class PersonaJuridica(models.Model):
@@ -39,7 +41,7 @@ class Avaluador(models.Model):
     TipoAfiliado =  models.CharField(blank=True,max_length=150)
     PersonaJuridica = models.ForeignKey(PersonaJuridica,blank=True,null=True,on_delete=models.SET_NULL)
     Titulo = models.CharField(max_length=150, default= ' ')
-    Coordenadas = models.CharField(max_length=150, default= ' ')
+    Coordenadas = models.PointField(default=Point(0.0, 0.0))
     def __str__(self):
         return str(self.Nombre + " "+ self.Apellidos)
     class Meta:

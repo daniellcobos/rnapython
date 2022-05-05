@@ -5,7 +5,7 @@ from curses.ascii import HT
 from re import search, template
 from django import http
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from .forms import SearchForm, SearchVigForm
 from . import urls
@@ -23,6 +23,8 @@ from django.views.generic import TemplateView, DetailView
 import pandas as pd
 from .serializers import *
 from rest_framework import generics
+from django.contrib.gis.geos import Point
+import json
 
 def WriteToExcel(request):
     #redo the excel report
@@ -212,8 +214,8 @@ class AvaluadorList(generics.ListAPIView):
 
 
 class CoordinateList(generics.ListAPIView):
-    queryset = Avaluador.objects.exclude(Coordenadas = "No disponible")
-    serializer_class = CoordenadasListSerializer
+    queryset = Avaluador.objects.all()
+    serializer_class = AvaluadorListSerializer
 
 class AvaluadorDetail(generics.RetrieveAPIView):
      queryset = Avaluador.objects.all()
@@ -289,22 +291,28 @@ def Geocode(request):
             pais = Av.Pais
         geocodelist = Direccion + Av.Ciudad +","+ pais
         
-        if Av.Coordenadas == " ":
-            try:
+        try:
                 geolocator = Nominatim(user_agent="RNAavaluadores")
                 location = geolocator.geocode(geocodelist)
                 print(geocodelist)
                 time.sleep(1)
                 if location:
                     
-                    Av.Coordenadas = (str(location.latitude) +"," + str(location.longitude))
+                    Av.Coordenadas = Point(location.longitude,location.latitude)
                 else:
                     Av.Coordenadas = "No disponible"
                 print(Av.Coordenadas)
                 Av.save()
-            except:
-                Av.Coordenadas = "No disponible"
+        except Exception as e:
+                print(e)
+                Av.Coordenadas = Point(0.0, 0.0)
                 Av.save()
-        else:
-            print(Av.Coordenadas)
+      
     return HttpResponse('AAAA')
+
+def CoordinateListView(request):
+
+   jsonresponse = CoordSerializer()
+   jsonresponse = json.loads(jsonresponse)
+   print(jsonresponse)
+   return JsonResponse(jsonresponse)
