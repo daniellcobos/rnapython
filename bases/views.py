@@ -268,8 +268,8 @@ import time
 def Geocode(request):
     Avlist = Avaluador.objects.all()
     for Av in Avlist:
-        if Av.Direccion == "Sin Informacion":
-            Direccion = ""
+        if Av.Direccion == " ":
+            Direccion = "Sin Informacion"
         else:
             Direccion = Av.Direccion.split()
             for index,item in enumerate(Direccion):
